@@ -195,6 +195,9 @@
         </plugins>
     </build>
 
-
+    <modules>
+        <module>carrental-vehicle-management</module>
+        <module>carrental-customer-management</module>
+    </modules>
 
 </project>

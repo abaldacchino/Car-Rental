@@ -1,4 +1,4 @@
-package com.um.carrental.customermanagement;
+package customermanagement2;
 
 public class Main {
 

@@ -1,15 +1,15 @@
-package com.um.carrental.vehiclemanagement.web.requests;
+package com.um.carrental.vehiclemanagement.services;
 
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
 
-public class AddVehicleRequest {
+public class VehicleSubmission {
     private String numberPlate;
     private VehicleType type;
 
-    public AddVehicleRequest() {
+    public VehicleSubmission() {
     }
 
-    public AddVehicleRequest(String numberPlate, VehicleType type) {
+    public VehicleSubmission(String numberPlate, VehicleType type) {
         this.numberPlate = numberPlate;
         this.type = type;
     }

@@ -30,7 +30,7 @@ public class AddVehicleController {
     @ResponseStatus(HttpStatus.CREATED)
     public AddVehicleResponse addVehicle(@RequestBody AddVehicleRequest request){
         VehicleSubmission vehicleSubmission = mapper.map(request, VehicleSubmission.class);
-        vehicleManagementService.addVehicle(vehicleSubmission);
-        return new AddVehicleResponse(true);
+
+        return new AddVehicleResponse(vehicleManagementService.addVehicle(vehicleSubmission));
     }
 }

@@ -2,6 +2,7 @@ package com.um.carrental.vehiclemanagement.services;
 
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,13 @@ public class VehicleManagementService {
         }
         //Call repository to save data
         VehicleEntity vehicleEntity = mapper.map(vehicle, VehicleEntity.class);
-        repository.save(vehicleEntity);
-        return true;
+        System.out.println("Number plate= "+vehicleEntity.getNumberPlate() );
+        System.out.println(repository.existsById(vehicleEntity.getNumberPlate()));
+        if(repository.existsById(vehicleEntity.getNumberPlate())){
+            return false;
+        }else{
+            repository.save(vehicleEntity);
+            return true;
+        }
     }
 }

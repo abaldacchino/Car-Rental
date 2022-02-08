@@ -41,4 +41,11 @@ public class VehicleManagementService {
             return true;
         }
     }
+
+    public boolean deleteVehicle(String numberPlate){
+        if(!repository.existsById(numberPlate))
+            return false;
+        repository.deleteById(numberPlate);
+        return true;
+    }
 }

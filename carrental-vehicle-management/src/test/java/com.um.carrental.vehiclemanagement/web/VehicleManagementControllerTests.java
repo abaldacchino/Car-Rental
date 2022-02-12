@@ -2,6 +2,7 @@ package com.um.carrental.vehiclemanagement.web;
 
 import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
+import com.um.carrental.vehiclemanagement.exceptions.VehicleNotFoundException;
 import com.um.carrental.vehiclemanagement.services.FamilyCar;
 import com.um.carrental.vehiclemanagement.services.Vehicle;
 import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
@@ -145,7 +146,7 @@ public class VehicleManagementControllerTests {
     }
 
     @Test
-    public void testGetExistingVehicleById(){
+    public void testGetPresentVehicleById(){
         //Setup
         String numberPlate = "ABC 123";
         GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
@@ -158,6 +159,29 @@ public class VehicleManagementControllerTests {
 
         //Verify
         assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(vehicleManagementServiceMock, times(1)).getVehicleById(numberPlate);
+
+        //Teardown - no teardown stage
+
+    }
+
+    @Test
+    public void testGetNotPresentVehicleById(){
+        //Setup
+        String numberPlate = "ABC 123";
+        GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
+        when(vehicleManagementServiceMock.getVehicleById(numberPlate)).thenReturn(null);
+        boolean caughtException = false;
+
+        //Exercise
+        try{
+            GetVehicleByIdResponse response = vehicleManagementController.getVehicleById(request);
+        }catch(VehicleNotFoundException notFoundException){
+            caughtException = true;
+        }
+
+        //Verify
+        assertTrue(caughtException);
         verify(vehicleManagementServiceMock, times(1)).getVehicleById(numberPlate);
 
         //Teardown - no teardown stage

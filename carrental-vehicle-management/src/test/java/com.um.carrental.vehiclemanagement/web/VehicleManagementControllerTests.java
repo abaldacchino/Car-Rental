@@ -1,6 +1,9 @@
 package com.um.carrental.vehiclemanagement.web;
 
+import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
+import com.um.carrental.vehiclemanagement.services.FamilyCar;
+import com.um.carrental.vehiclemanagement.services.Vehicle;
 import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
 import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.controllers.VehicleManagementController;
@@ -9,13 +12,13 @@ import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -24,6 +27,9 @@ import static org.mockito.Mockito.*;
 public class VehicleManagementControllerTests {
     @Autowired
     VehicleManagementController vehicleManagementController;
+
+    @Autowired
+    ModelMapper mapper = new ModelMapper();
 
     @MockBean
     VehicleManagementService vehicleManagementServiceMock;
@@ -123,8 +129,8 @@ public class VehicleManagementControllerTests {
                 new DeleteVehicleRequest(numberPlate);
         boolean expectedFound = false;
         when(vehicleManagementServiceMock.deleteVehicle(numberPlate)).thenReturn(expectedFound);
-        // Exercise
 
+        // Exercise
         DeleteVehicleResponse actualResponse = vehicleManagementController.deleteVehicle(deleteRequest);
 
         // Verify
@@ -134,5 +140,25 @@ public class VehicleManagementControllerTests {
 
         verify(vehicleManagementServiceMock, times(1)).deleteVehicle(numberPlate);
         // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testGetExistingVehicleById(){
+        //Setup
+        String numberPlate = "ABC 123";
+        GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
+        Vehicle returnedVehicle = new FamilyCar(numberPlate);
+        GetVehicleByIdResponse expectedResponse = mapper.map(Vehicle, GetVehicleByIdResponse.class);
+        when(vehicleManagementServiceMock.getVehicleById(numberPlate)).thenReturn(returnedVehicle);
+
+        //Exercise
+        GetVehicleByIdResponse response = vehicleManagementController.getVehicleById(request);
+
+        //Verify
+        assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(vehicleManagementServiceMock, times(1)).getVehicleById(numberPlate);
+
+        //Teardown - no teardown stage
+
     }
 }

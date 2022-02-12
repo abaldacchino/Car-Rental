@@ -4,8 +4,10 @@ import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
 import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
+import com.um.carrental.vehiclemanagement.web.requests.GetVehicleByIdRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
+import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByIdResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,9 +39,19 @@ public class VehicleManagementController {
     // Method --> DELETE
     // Request --> DeleteVehicleRequest
     // Response --> 200 (OK), DeleteVehicleResponse
-    @DeleteMapping(value = "vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "vehicles/{numberPlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public DeleteVehicleResponse deleteVehicle(@RequestBody DeleteVehicleRequest request){
         return new DeleteVehicleResponse(vehicleManagementService.deleteVehicle(request.getNumberPlate()));
+    }
+
+    // Get a vehicle by ID (numberPlate)
+    // Method --> DELETE
+    // Request --> DeleteVehicleRequest
+    // Response --> 200 (OK), DeleteVehicleResponse
+    @GetMapping(value = "vehicles/{numberPlate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetVehicleByIdResponse getVehicleById(@RequestBody GetVehicleByIdRequest request){
+        return null;
     }
 }

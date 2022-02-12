@@ -9,8 +9,10 @@ import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.controllers.VehicleManagementController;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
+import com.um.carrental.vehiclemanagement.web.requests.GetVehicleByIdRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
+import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByIdResponse;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -148,7 +150,7 @@ public class VehicleManagementControllerTests {
         String numberPlate = "ABC 123";
         GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
         Vehicle returnedVehicle = new FamilyCar(numberPlate);
-        GetVehicleByIdResponse expectedResponse = mapper.map(Vehicle, GetVehicleByIdResponse.class);
+        GetVehicleByIdResponse expectedResponse = mapper.map(returnedVehicle, GetVehicleByIdResponse.class);
         when(vehicleManagementServiceMock.getVehicleById(numberPlate)).thenReturn(returnedVehicle);
 
         //Exercise

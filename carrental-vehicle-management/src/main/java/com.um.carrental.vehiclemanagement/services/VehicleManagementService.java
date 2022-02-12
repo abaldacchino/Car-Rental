@@ -2,6 +2,7 @@ package com.um.carrental.vehiclemanagement.services;
 
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
+import com.um.carrental.vehiclemanagement.web.requests.GetVehicleByIdRequest;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,9 @@ public class VehicleManagementService {
             return false;
         repository.deleteById(numberPlate);
         return true;
+    }
+
+    public Vehicle getVehicleById(String numberPlate){
+        return null;
     }
 }

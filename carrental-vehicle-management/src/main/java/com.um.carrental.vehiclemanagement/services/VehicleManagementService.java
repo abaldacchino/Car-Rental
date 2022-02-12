@@ -51,6 +51,9 @@ public class VehicleManagementService {
     }
 
     public Vehicle getVehicleById(String numberPlate){
+        if(repository.existsById(numberPlate)){
+            return mapper.map(repository.getById(numberPlate), Vehicle.class);
+        }
         return null;
     }
 }

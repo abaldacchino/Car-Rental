@@ -52,6 +52,7 @@ public class VehicleManagementController {
     @GetMapping(value = "vehicles/{numberPlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetVehicleByIdResponse getVehicleById(@RequestBody GetVehicleByIdRequest request){
-        return null;
+        return mapper.map(vehicleManagementService.getVehicleById(request.getNumberPlate()),
+                GetVehicleByIdResponse.class);
     }
 }

@@ -2,7 +2,9 @@ package com.um.carrental.vehiclemanagement.services;
 
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
 
-public abstract class Vehicle {
+import java.util.Objects;
+
+public class Vehicle {
     String numberPlate;
     VehicleType vehicleType;
     double price;
@@ -13,6 +15,9 @@ public abstract class Vehicle {
         this.vehicleType = vehicleType;
         this.price = price;
         this.capacity = capacity;
+    }
+
+    public Vehicle() {
     }
 
     public String getNumberPlate() {
@@ -46,4 +51,18 @@ public abstract class Vehicle {
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vehicle vehicle = (Vehicle) o;
+        return Double.compare(vehicle.price, price) == 0 && capacity == vehicle.capacity && numberPlate.equals(vehicle.numberPlate) && vehicleType == vehicle.vehicleType;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(numberPlate);
+    }
 }
+

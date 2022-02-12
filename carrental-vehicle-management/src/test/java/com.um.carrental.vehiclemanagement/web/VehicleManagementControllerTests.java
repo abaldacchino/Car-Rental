@@ -150,7 +150,7 @@ public class VehicleManagementControllerTests {
         //Setup
         String numberPlate = "ABC 123";
         GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
-        Vehicle returnedVehicle = new FamilyCar(numberPlate);
+        Vehicle returnedVehicle = new Vehicle(numberPlate, VehicleType.FAMILY, 12,12);
         GetVehicleByIdResponse expectedResponse = mapper.map(returnedVehicle, GetVehicleByIdResponse.class);
         when(vehicleManagementServiceMock.getVehicleById(numberPlate)).thenReturn(returnedVehicle);
 

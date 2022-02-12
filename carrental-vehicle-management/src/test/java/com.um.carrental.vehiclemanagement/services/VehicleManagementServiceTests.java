@@ -1,6 +1,7 @@
 package com.um.carrental.vehiclemanagement.services;
 
 import com.cedarsoftware.util.DeepEquals;
+import com.google.common.base.Verify;
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
@@ -14,8 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
@@ -179,46 +179,26 @@ public class VehicleManagementServiceTests {
 
         // Teardown -- no teardown needed
     }
-}
 
-class VehicleEntityMatcher implements ArgumentMatcher<VehicleEntity> {
+    @Test
+    public void getPresentVehicleById(){
+        // Setup
 
-    private VehicleEntity left;
-    private VehicleEntity match;
+        String numberPlate = "ABC 123";
+        Vehicle expectedResponse = new Vehicle(numberPlate, VehicleType.FAMILY, 20, 10);
+        VehicleEntity expectedEntityResponse = modelMapper.map(expectedResponse, VehicleEntity.class);
+        when(repository.existsById(numberPlate)).thenReturn(true);
+        when(repository.getById(numberPlate)).thenReturn(expectedEntityResponse);
 
-    public VehicleEntityMatcher(VehicleEntity left) {
-        this.left = left;
-    }
+        // Exercise
+        Vehicle response = vehicleManagementService.getVehicleById(numberPlate);
 
-    @Override
-    public boolean matches(VehicleEntity right) {
-        boolean isMatch = left != null && right != null &&
-                left.getNumberPlate().equals(right.getNumberPlate()) &&
-                left.getCapacity() == right.getCapacity() &&
-                left.getPrice() == right.getPrice() &&
-                left.getVehicleType() == right.getVehicleType() &&
-                isValidUUID(right.getNumberPlate());
+        // Verify
 
-        if (isMatch) {
-            match = right;
-        }
+        assertTrue(expectedResponse.equals(response));
+        verify(repository, times(1)).existsById(numberPlate);
+        verify(repository, times(1)).getById(numberPlate);
 
-        return isMatch;
-    }
-
-    public VehicleEntity getMatch() {
-        return match;
-    }
-
-    private boolean isValidUUID(String numberPlate) {
-
-        if (numberPlate == null) return false;
-
-        try {
-            UUID uuid = UUID.fromString(numberPlate);
-            return numberPlate.equals(uuid.toString());
-        } catch(IllegalArgumentException e) {
-            return false;
-        }
+        // Teardown -- no teardown needed
     }
 }

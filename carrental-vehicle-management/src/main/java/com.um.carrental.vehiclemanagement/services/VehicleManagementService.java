@@ -32,9 +32,9 @@ public class VehicleManagementService {
         }
         //Call repository to save data
         VehicleEntity vehicleEntity = mapper.map(vehicle, VehicleEntity.class);
-        System.out.println("Number plate= "+vehicleEntity.getNumberPlate() );
-        System.out.println(repository.existsById(vehicleEntity.getNumberPlate()));
-        if(repository.existsById(vehicleEntity.getNumberPlate())){
+        boolean exists = repository.existsById(vehicleEntity.getNumberPlate());
+
+        if(exists){
             return false;
         }else{
             repository.save(vehicleEntity);

@@ -1,5 +1,7 @@
 package com.um.carrental.vehiclemanagement.web.controllers;
 
+import com.um.carrental.vehiclemanagement.exceptions.VehicleNotFoundException;
+import com.um.carrental.vehiclemanagement.services.Vehicle;
 import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
 import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
@@ -52,7 +54,8 @@ public class VehicleManagementController {
     @GetMapping(value = "vehicles/{numberPlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetVehicleByIdResponse getVehicleById(@RequestBody GetVehicleByIdRequest request){
-        return mapper.map(vehicleManagementService.getVehicleById(request.getNumberPlate()),
-                GetVehicleByIdResponse.class);
+        Vehicle returnedVehicle = vehicleManagementService.getVehicleById(request.getNumberPlate());
+        if(returnedVehicle == null)throw new VehicleNotFoundException();
+        return mapper.map(returnedVehicle,GetVehicleByIdResponse.class);
     }
 }

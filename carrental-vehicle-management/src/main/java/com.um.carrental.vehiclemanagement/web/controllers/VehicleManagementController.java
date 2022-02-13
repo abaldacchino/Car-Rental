@@ -1,6 +1,7 @@
 package com.um.carrental.vehiclemanagement.web.controllers;
 
 import com.um.carrental.vehiclemanagement.enums.RequestType;
+import com.um.carrental.vehiclemanagement.enums.VehicleType;
 import com.um.carrental.vehiclemanagement.exceptions.VehicleNotFoundException;
 import com.um.carrental.vehiclemanagement.services.Vehicle;
 import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
@@ -62,7 +63,7 @@ public class VehicleManagementController {
         return mapper.map(returnedVehicle, GetVehicleByNumberPlateResponse.class);
     }
 
-    // Get a vehicle by various attributes
+    // Get a vehicle by capacity
     // Method --> GET
     // Request --> capacity, requestType
     // Response --> 200 (OK), GetVehicleResponse
@@ -77,7 +78,7 @@ public class VehicleManagementController {
         }else return new GetVehicleResponse(matchingVehicles);
     }
 
-    // Get a vehicle by various attributes
+    // Get a vehicle by price
     // Method --> GET
     // Request --> capacity, requestType
     // Response --> 200 (OK), GetVehicleResponse
@@ -87,6 +88,21 @@ public class VehicleManagementController {
                                                    @PathVariable RequestType requestType){
         List<Vehicle> matchingVehicles =
                 vehicleManagementService.getVehicleByPrice(price, requestType);
+        if(matchingVehicles.isEmpty()){
+            throw new VehicleNotFoundException();
+        }else return new GetVehicleResponse(matchingVehicles);
+    }
+
+    // Get a vehicle by vehicle type
+    // Method --> GET
+    // Request --> capacity, requestType
+    // Response --> 200 (OK), GetVehicleResponse
+    @GetMapping(value = "vehicles/{vehicleType}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetVehicleResponse getVehicleByVehicleType(@PathVariable VehicleType vehicleType,
+                                                      @PathVariable RequestType requestType){
+        List<Vehicle> matchingVehicles =
+                vehicleManagementService.getVehicleByVehicleType(vehicleType, requestType);
         if(matchingVehicles.isEmpty()){
             throw new VehicleNotFoundException();
         }else return new GetVehicleResponse(matchingVehicles);

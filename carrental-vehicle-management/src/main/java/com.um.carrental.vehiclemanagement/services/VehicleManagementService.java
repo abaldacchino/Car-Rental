@@ -3,6 +3,7 @@ package com.um.carrental.vehiclemanagement.services;
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
 import com.um.carrental.vehiclemanagement.enums.RequestType;
+import com.um.carrental.vehiclemanagement.enums.VehicleType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,6 +66,11 @@ public class VehicleManagementService {
     }
 
     public List<Vehicle> getVehicleByPrice(double price, RequestType requestType){
+
+        return null;
+    }
+
+    public List<Vehicle> getVehicleByVehicleType(VehicleType vehicleType, RequestType requestType){
 
         return null;
     }

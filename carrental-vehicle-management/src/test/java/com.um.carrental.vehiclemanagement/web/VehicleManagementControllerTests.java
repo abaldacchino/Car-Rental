@@ -189,7 +189,7 @@ public class VehicleManagementControllerTests {
     }
 
     @Test
-    public void testGetOneVehicleEqualsCapacity(){
+    public void testGetOneVehicleByCapacity(){
         // Setup
         int capacity = 6;
         RequestType requestType = RequestType.EQUALS;

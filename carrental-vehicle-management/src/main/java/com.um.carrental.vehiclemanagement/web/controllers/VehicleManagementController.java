@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VehicleManagementController {
 
@@ -68,7 +70,9 @@ public class VehicleManagementController {
     @ResponseStatus(HttpStatus.OK)
     public GetVehicleResponse getVehicleByCapacity(@PathVariable int capacity,
                                          @PathVariable RequestType requestType){
-        return null;
+        List<Vehicle> matchingVehicles =
+                vehicleManagementService.getVehicleByCapacity(capacity, requestType);
+        return new GetVehicleResponse(matchingVehicles);
     }
 
 }

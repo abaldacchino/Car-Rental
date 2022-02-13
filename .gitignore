@@ -1,2 +1,4 @@
 target/*
 .idea/*
+./target/*
+/carrental-vehicle-management/target/

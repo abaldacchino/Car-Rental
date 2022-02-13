@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehicleManagementService {
@@ -18,6 +20,9 @@ public class VehicleManagementService {
 
     @Autowired
     VehicleRepository repository;
+
+    @Autowired
+    MatchingUtil matcher;
 
     public boolean addVehicle(VehicleSubmission vehicleSubmission) {
         Vehicle vehicle;
@@ -61,8 +66,18 @@ public class VehicleManagementService {
     }
 
     public List<Vehicle> getVehicleByCapacity(int capacity, RequestType requestType){
+        List<VehicleEntity> vehicleEntityList = repository.findAll();
+        Iterator<VehicleEntity> iterator = vehicleEntityList.listIterator();
+        List<Vehicle> matchingVehicles = new ArrayList<>();
 
-        return null;
+        while(iterator.hasNext()){
+            VehicleEntity vehicleEntity = iterator.next();
+            if(matcher.isDoubleMatch(vehicleEntity.getCapacity(),
+                    capacity, requestType)){
+                matchingVehicles.add(mapper.map(vehicleEntity, Vehicle.class));
+            }
+        }
+        return matchingVehicles;
     }
 
     public List<Vehicle> getVehicleByPrice(double price, RequestType requestType){

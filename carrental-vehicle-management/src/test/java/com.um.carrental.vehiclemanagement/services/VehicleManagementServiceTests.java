@@ -1,7 +1,9 @@
 package com.um.carrental.vehiclemanagement.services;
 
+import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
+import com.um.carrental.vehiclemanagement.enums.RequestType;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -9,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -215,11 +220,37 @@ public class VehicleManagementServiceTests {
     @Test
     public void getVehicleByCapacityEquals(){
         // Setup
+        int capacity = 10;
+        RequestType requestType = RequestType.EQUALS;
 
+        List<VehicleEntity> returnedVehicleList= new ArrayList<>();
+        returnedVehicleList.add(new VehicleEntity("ABC 123",
+                VehicleType.FAMILY, 100.0, 12));
+        returnedVehicleList.add(new VehicleEntity("AFC 125",
+                VehicleType.MOTORCYCLE, 125.0, 3));
+        returnedVehicleList.add(new VehicleEntity("ABC 125",
+                VehicleType.FAMILY, 125.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADB 190",
+                VehicleType.COMMERCIAL, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADL 190",
+                VehicleType.COMMERCIAL, 190.0, 9));
+        returnedVehicleList.add(new VehicleEntity("ADL 190",
+                VehicleType.MOTORCYCLE, 80.0, 3));
+        when(repository.findAll()).thenReturn(returnedVehicleList);
+
+        List<Vehicle> expectedResponse = new ArrayList<>();
+        expectedResponse.add(new Vehicle("ABC 125",
+                VehicleType.FAMILY, 125.0, 10));
+        expectedResponse.add(new Vehicle("ADB 190",
+                VehicleType.COMMERCIAL, 120.0, 10));
 
         // Exercise
+        List<Vehicle> response = vehicleManagementService
+                .getVehicleByCapacity(capacity, requestType);
 
         // Verify
+        assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(repository, times(1)).findAll();
 
         // Teardown -- no teardown stage
     }

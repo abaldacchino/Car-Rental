@@ -212,4 +212,65 @@ public class VehicleManagementControllerTests {
 
         // Teardown - no teardown stage
     }
+
+    @Test
+    public void testGetFiveVehiclesByCapacity(){
+        // Setup
+        int capacity = 4;
+        RequestType requestType = RequestType.EQUALS;
+        List<Vehicle> returnedVehicles = new ArrayList<>();
+        returnedVehicles.add(new Vehicle("ABC 123", VehicleType.FAMILY,
+                125, capacity));
+        returnedVehicles.add(new Vehicle("ABC 124", VehicleType.MOTORCYCLE,
+                100, capacity));
+        returnedVehicles.add(new Vehicle("ABC 125", VehicleType.COMMERCIAL,
+                120, capacity));
+        returnedVehicles.add(new Vehicle("ABC 126", VehicleType.COMMERCIAL,
+                190, capacity));
+        returnedVehicles.add(new Vehicle("AMC 123", VehicleType.FAMILY,
+                90, capacity));
+        GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
+        when(vehicleManagementServiceMock.
+                getVehicleByCapacity(capacity, requestType)).thenReturn(returnedVehicles);
+
+        // Exercise
+        GetVehicleResponse response = vehicleManagementController.
+                getVehicleByCapacity(capacity, requestType);
+
+        // Verify
+        assertNotNull(response);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, response));
+        verify(vehicleManagementServiceMock, times(1)).
+                getVehicleByCapacity(capacity, requestType);
+
+        // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testGetZeroVehiclesByCapacity(){
+        // Setup
+        int capacity = 4;
+        RequestType requestType = RequestType.EQUALS;
+        List<Vehicle> returnedVehicles = new ArrayList<>();
+        GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
+        when(vehicleManagementServiceMock.
+                getVehicleByCapacity(capacity, requestType)).thenReturn(returnedVehicles);
+        boolean exceptionThrown = false;
+
+        // Exercise
+        try{
+            GetVehicleResponse response = vehicleManagementController.
+                    getVehicleByCapacity(capacity, requestType);
+        }catch(VehicleNotFoundException notFoundException){
+            exceptionThrown=true;
+        }
+
+
+        // Verify
+        assertTrue(exceptionThrown);
+        verify(vehicleManagementServiceMock, times(1)).
+                getVehicleByCapacity(capacity, requestType);
+
+        // Teardown - no teardown stage
+    }
 }

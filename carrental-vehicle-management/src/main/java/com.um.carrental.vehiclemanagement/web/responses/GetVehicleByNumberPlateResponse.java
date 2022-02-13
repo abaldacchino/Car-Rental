@@ -2,20 +2,20 @@ package com.um.carrental.vehiclemanagement.web.responses;
 
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
 
-public class GetVehicleByIdResponse {
+public class GetVehicleByNumberPlateResponse {
     String numberPlate;
     VehicleType vehicleType;
     double price;
     int capacity;
 
-    public GetVehicleByIdResponse(String numberPlate, VehicleType vehicleType, double price, int capacity) {
+    public GetVehicleByNumberPlateResponse(String numberPlate, VehicleType vehicleType, double price, int capacity) {
         this.numberPlate = numberPlate;
         this.vehicleType = vehicleType;
         this.price = price;
         this.capacity = capacity;
     }
 
-    public GetVehicleByIdResponse() {
+    public GetVehicleByNumberPlateResponse() {
     }
 
     public String getNumberPlate() {

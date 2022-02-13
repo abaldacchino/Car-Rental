@@ -1,25 +1,28 @@
 package com.um.carrental.vehiclemanagement.web;
 
 import com.cedarsoftware.util.DeepEquals;
+import com.um.carrental.vehiclemanagement.enums.RequestType;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
 import com.um.carrental.vehiclemanagement.exceptions.VehicleNotFoundException;
-import com.um.carrental.vehiclemanagement.services.FamilyCar;
 import com.um.carrental.vehiclemanagement.services.Vehicle;
 import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
 import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.controllers.VehicleManagementController;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
-import com.um.carrental.vehiclemanagement.web.requests.GetVehicleByIdRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
-import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByIdResponse;
+import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByNumberPlateResponse;
+import com.um.carrental.vehiclemanagement.web.responses.GetVehicleResponse;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -146,45 +149,67 @@ public class VehicleManagementControllerTests {
     }
 
     @Test
-    public void testGetPresentVehicleById(){
+    public void testGetPresentVehicleByNumberPlate(){
         //Setup
         String numberPlate = "ABC 123";
-        GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
         Vehicle returnedVehicle = new Vehicle(numberPlate, VehicleType.FAMILY, 12,12);
-        GetVehicleByIdResponse expectedResponse = mapper.map(returnedVehicle, GetVehicleByIdResponse.class);
-        when(vehicleManagementServiceMock.getVehicleById(numberPlate)).thenReturn(returnedVehicle);
+        GetVehicleByNumberPlateResponse expectedResponse = mapper.map(returnedVehicle, GetVehicleByNumberPlateResponse.class);
+        when(vehicleManagementServiceMock.getVehicleByNumberPlate(numberPlate)).thenReturn(returnedVehicle);
 
         //Exercise
-        GetVehicleByIdResponse response = vehicleManagementController.getVehicleById(request);
+        GetVehicleByNumberPlateResponse response = vehicleManagementController.getVehicleByNumberPlate(numberPlate);
 
         //Verify
         assertTrue(DeepEquals.deepEquals(response, expectedResponse));
-        verify(vehicleManagementServiceMock, times(1)).getVehicleById(numberPlate);
+        verify(vehicleManagementServiceMock, times(1)).getVehicleByNumberPlate(numberPlate);
 
         //Teardown - no teardown stage
 
     }
 
     @Test
-    public void testGetNotPresentVehicleById(){
+    public void testGetNotPresentVehicleByNumberPlate(){
         //Setup
         String numberPlate = "ABC 123";
-        GetVehicleByIdRequest request = new GetVehicleByIdRequest(numberPlate);
-        when(vehicleManagementServiceMock.getVehicleById(numberPlate)).thenReturn(null);
+        when(vehicleManagementServiceMock.getVehicleByNumberPlate(numberPlate)).thenReturn(null);
         boolean caughtException = false;
 
         //Exercise
         try{
-            GetVehicleByIdResponse response = vehicleManagementController.getVehicleById(request);
+            GetVehicleByNumberPlateResponse response = vehicleManagementController.getVehicleByNumberPlate(numberPlate);
         }catch(VehicleNotFoundException notFoundException){
             caughtException = true;
         }
 
         //Verify
         assertTrue(caughtException);
-        verify(vehicleManagementServiceMock, times(1)).getVehicleById(numberPlate);
+        verify(vehicleManagementServiceMock, times(1)).getVehicleByNumberPlate(numberPlate);
 
         //Teardown - no teardown stage
+    }
 
+    @Test
+    public void testGetOneVehicleEqualsCapacity(){
+        // Setup
+        int capacity = 6;
+        RequestType requestType = RequestType.EQUALS;
+        List<Vehicle> returnedVehicles = new ArrayList<>();
+        returnedVehicles.add(new Vehicle("ABC 123", VehicleType.FAMILY,
+                120, capacity));
+        GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
+        when(vehicleManagementServiceMock.
+                getVehicleByCapacity(capacity, requestType)).thenReturn(returnedVehicles);
+
+        // Exercise
+        GetVehicleResponse response = vehicleManagementController.
+                getVehicleByCapacity(capacity, requestType);
+
+        // Verify
+        assertNotNull(response);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, response));
+        verify(vehicleManagementServiceMock, times(1)).
+                getVehicleByCapacity(capacity, requestType);
+
+        // Teardown - no teardown stage
     }
 }

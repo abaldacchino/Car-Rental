@@ -2,11 +2,13 @@ package com.um.carrental.vehiclemanagement.services;
 
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
-import com.um.carrental.vehiclemanagement.web.requests.GetVehicleByIdRequest;
-import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
+import com.um.carrental.vehiclemanagement.enums.RequestType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class VehicleManagementService {
@@ -50,10 +52,15 @@ public class VehicleManagementService {
         return true;
     }
 
-    public Vehicle getVehicleById(String numberPlate){
+    public Vehicle getVehicleByNumberPlate(String numberPlate){
         if(repository.existsById(numberPlate)){
             return mapper.map(repository.getById(numberPlate), Vehicle.class);
         }
+        return null;
+    }
+
+    public List<Vehicle> getVehicleByCapacity(int capacity, RequestType requestType){
+
         return null;
     }
 }

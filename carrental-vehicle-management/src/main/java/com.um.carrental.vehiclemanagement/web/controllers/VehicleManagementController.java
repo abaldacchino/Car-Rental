@@ -1,15 +1,16 @@
 package com.um.carrental.vehiclemanagement.web.controllers;
 
+import com.um.carrental.vehiclemanagement.enums.RequestType;
 import com.um.carrental.vehiclemanagement.exceptions.VehicleNotFoundException;
 import com.um.carrental.vehiclemanagement.services.Vehicle;
 import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
 import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
-import com.um.carrental.vehiclemanagement.web.requests.GetVehicleByIdRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
-import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByIdResponse;
+import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByNumberPlateResponse;
+import com.um.carrental.vehiclemanagement.web.responses.GetVehicleResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -48,14 +49,26 @@ public class VehicleManagementController {
     }
 
     // Get a vehicle by ID (numberPlate)
-    // Method --> DELETE
-    // Request --> DeleteVehicleRequest
-    // Response --> 200 (OK), DeleteVehicleResponse
+    // Method --> GET
+    // Request --> numberPlate
+    // Response --> 200 (OK), GetVehicleByIdResponse
     @GetMapping(value = "vehicles/{numberPlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetVehicleByIdResponse getVehicleById(@RequestBody GetVehicleByIdRequest request){
-        Vehicle returnedVehicle = vehicleManagementService.getVehicleById(request.getNumberPlate());
+    public GetVehicleByNumberPlateResponse getVehicleByNumberPlate(@PathVariable String numberPlate){
+        Vehicle returnedVehicle = vehicleManagementService.getVehicleByNumberPlate(numberPlate);
         if(returnedVehicle == null)throw new VehicleNotFoundException();
-        return mapper.map(returnedVehicle,GetVehicleByIdResponse.class);
+        return mapper.map(returnedVehicle, GetVehicleByNumberPlateResponse.class);
     }
+
+    // Get a vehicle by various attributes
+    // Method --> GET
+    // Request --> GetVehicleRequest
+    // Response --> 200 (OK), GetVehicleResponse
+    @GetMapping(value = "vehicles/{capacity}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetVehicleResponse getVehicleByCapacity(@PathVariable int capacity,
+                                         @PathVariable RequestType requestType){
+        return null;
+    }
+
 }

@@ -1,22 +1,16 @@
 package com.um.carrental.vehiclemanagement.services;
 
-import com.cedarsoftware.util.DeepEquals;
-import com.google.common.base.Verify;
 import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.UUID;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
@@ -191,7 +185,7 @@ public class VehicleManagementServiceTests {
         when(repository.getById(numberPlate)).thenReturn(expectedEntityResponse);
 
         // Exercise
-        Vehicle response = vehicleManagementService.getVehicleById(numberPlate);
+        Vehicle response = vehicleManagementService.getVehicleByNumberPlate(numberPlate);
 
         // Verify
 
@@ -201,4 +195,5 @@ public class VehicleManagementServiceTests {
 
         // Teardown -- no teardown needed
     }
+
 }

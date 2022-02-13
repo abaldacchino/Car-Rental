@@ -72,7 +72,9 @@ public class VehicleManagementController {
                                          @PathVariable RequestType requestType){
         List<Vehicle> matchingVehicles =
                 vehicleManagementService.getVehicleByCapacity(capacity, requestType);
-        return new GetVehicleResponse(matchingVehicles);
+        if(matchingVehicles.isEmpty()){
+            throw new VehicleNotFoundException();
+        }else return new GetVehicleResponse(matchingVehicles);
     }
 
 }

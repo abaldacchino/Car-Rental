@@ -10,6 +10,7 @@ import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.controllers.VehicleManagementController;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
+import com.um.carrental.vehiclemanagement.web.requests.UpdateVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByNumberPlateResponse;
@@ -436,6 +437,51 @@ public class VehicleManagementControllerTests {
         assertTrue(exceptionThrown);
         verify(vehicleManagementServiceMock, times(1)).
                 getVehicleByVehicleType(vehicleType);
+
+        // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testUpdatePresentVehicle(){
+        // Setup
+        UpdateVehicleRequest request = new UpdateVehicleRequest("ABC 123",
+                VehicleType.FAMILY, 120, 12);
+        when(vehicleManagementServiceMock.
+                updateVehicle(request)).thenReturn(true);
+
+        // Exercise
+        GetVehicleResponse response = vehicleManagementController.updateVehicle(request);
+
+
+        // Verify
+        verify(vehicleManagementServiceMock, times(1)).
+                updateVehicle(request);
+
+        // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testUpdateNotPresentVehicle(){
+        // Setup
+        UpdateVehicleRequest request = new UpdateVehicleRequest("ABC 123",
+                VehicleType.FAMILY, 120, 12);
+        when(vehicleManagementServiceMock.
+                updateVehicle(request)).thenReturn(false);
+        boolean exceptionThrown = false;
+
+        // Exercise
+        try{
+            GetVehicleResponse response = vehicleManagementController
+                .updateVehicle(request);
+        }catch(VehicleNotFoundException notFoundException){
+            exceptionThrown=true;
+        }
+
+
+        // Verify
+        assertTrue(exceptionThrown);
+        verify(vehicleManagementServiceMock, times(1)).
+                updateVehicle(request);
 
         // Teardown - no teardown stage
     }

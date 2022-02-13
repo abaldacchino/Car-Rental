@@ -4,6 +4,7 @@ import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
 import com.um.carrental.vehiclemanagement.enums.RequestType;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
+import com.um.carrental.vehiclemanagement.web.requests.UpdateVehicleRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,5 +108,9 @@ public class VehicleManagementService {
             }
         }
         return matchingVehicles;
+    }
+
+    public boolean updateVehicle(UpdateVehicleRequest request){
+        return false;
     }
 }

@@ -8,6 +8,7 @@ import com.um.carrental.vehiclemanagement.services.VehicleManagementService;
 import com.um.carrental.vehiclemanagement.services.VehicleSubmission;
 import com.um.carrental.vehiclemanagement.web.requests.AddVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.requests.DeleteVehicleRequest;
+import com.um.carrental.vehiclemanagement.web.requests.UpdateVehicleRequest;
 import com.um.carrental.vehiclemanagement.web.responses.AddVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.DeleteVehicleResponse;
 import com.um.carrental.vehiclemanagement.web.responses.GetVehicleByNumberPlateResponse;
@@ -69,8 +70,8 @@ public class VehicleManagementController {
     // Response --> 200 (OK), GetVehicleResponse
     @GetMapping(value = "vehicles/{capacity}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetVehicleResponse getVehicleByCapacity(@PathVariable int capacity,
-                                         @PathVariable RequestType requestType){
+    public GetVehicleResponse getVehicleByCapacity(@RequestParam(value="capacity") int capacity,
+                                                   @RequestParam(value="requestType") RequestType requestType){
         List<Vehicle> matchingVehicles =
                 vehicleManagementService.getVehicleByCapacity(capacity, requestType);
         if(matchingVehicles.isEmpty()){
@@ -84,8 +85,8 @@ public class VehicleManagementController {
     // Response --> 200 (OK), GetVehicleResponse
     @GetMapping(value = "vehicles/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetVehicleResponse getVehicleByPrice(@PathVariable double price,
-                                                   @PathVariable RequestType requestType){
+    public GetVehicleResponse getVehicleByPrice(@RequestParam(value="price") double price,
+                                                @RequestParam(value="requestType") RequestType requestType){
         List<Vehicle> matchingVehicles =
                 vehicleManagementService.getVehicleByPrice(price, requestType);
         if(matchingVehicles.isEmpty()){
@@ -99,12 +100,24 @@ public class VehicleManagementController {
     // Response --> 200 (OK), GetVehicleResponse
     @GetMapping(value = "vehicles/{vehicleType}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetVehicleResponse getVehicleByVehicleType(@PathVariable VehicleType vehicleType){
+    public GetVehicleResponse getVehicleByVehicleType(@RequestParam(value="vehicleType") VehicleType vehicleType){
         List<Vehicle> matchingVehicles =
                 vehicleManagementService.getVehicleByVehicleType(vehicleType);
         if(matchingVehicles.isEmpty()){
             throw new VehicleNotFoundException();
         }else return new GetVehicleResponse(matchingVehicles);
+    }
+
+    // Update a vehicle
+    // Method --> PUT
+    // Request --> UpdateVehicleRequest
+    // Response --> 204 (No Content)
+    @GetMapping(value = "vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public GetVehicleResponse updateVehicle(@RequestBody UpdateVehicleRequest request){
+        boolean found = vehicleManagementService.updateVehicle(request);
+        if(!found) throw new VehicleNotFoundException();
+        return null;
     }
 
 }

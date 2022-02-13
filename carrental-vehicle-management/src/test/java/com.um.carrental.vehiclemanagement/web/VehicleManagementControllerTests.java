@@ -362,23 +362,22 @@ public class VehicleManagementControllerTests {
     public void testGetOneVehicleByVehicleType(){
         // Setup
         VehicleType vehicleType = VehicleType.FAMILY;
-        RequestType requestType = RequestType.EQUALS;
         List<Vehicle> returnedVehicles = new ArrayList<>();
         returnedVehicles.add(new Vehicle("ABC 123", vehicleType,
                 120, 8));
         GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
         when(vehicleManagementServiceMock.
-                getVehicleByVehicleType(vehicleType, requestType)).thenReturn(returnedVehicles);
+                getVehicleByVehicleType(vehicleType)).thenReturn(returnedVehicles);
 
         // Exercise
         GetVehicleResponse response = vehicleManagementController.
-                getVehicleByVehicleType(vehicleType, requestType);
+                getVehicleByVehicleType(vehicleType);
 
         // Verify
         assertNotNull(response);
         assertTrue(DeepEquals.deepEquals(expectedResponse, response));
         verify(vehicleManagementServiceMock, times(1)).
-                getVehicleByVehicleType(vehicleType, requestType);
+                getVehicleByVehicleType(vehicleType);
 
         // Teardown - no teardown stage
     }
@@ -387,7 +386,6 @@ public class VehicleManagementControllerTests {
     public void testGetFiveVehiclesByVehicleType(){
         // Setup
         VehicleType vehicleType = VehicleType.FAMILY;
-        RequestType requestType = RequestType.EQUALS;
         List<Vehicle> returnedVehicles = new ArrayList<>();
         returnedVehicles.add(new Vehicle("ABC 123", vehicleType,
                 12.0, 12));
@@ -401,17 +399,17 @@ public class VehicleManagementControllerTests {
                 90, 10));
         GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
         when(vehicleManagementServiceMock.
-                getVehicleByVehicleType(vehicleType, requestType)).thenReturn(returnedVehicles);
+                getVehicleByVehicleType(vehicleType)).thenReturn(returnedVehicles);
 
         // Exercise
         GetVehicleResponse response = vehicleManagementController.
-                getVehicleByVehicleType(vehicleType, requestType);
+                getVehicleByVehicleType(vehicleType);
 
         // Verify
         assertNotNull(response);
         assertTrue(DeepEquals.deepEquals(expectedResponse, response));
         verify(vehicleManagementServiceMock, times(1)).
-                getVehicleByVehicleType(vehicleType, requestType);
+                getVehicleByVehicleType(vehicleType);
 
         // Teardown - no teardown stage
     }
@@ -420,16 +418,15 @@ public class VehicleManagementControllerTests {
     public void testGetZeroVehiclesByVehicleType(){
         // Setup
         VehicleType vehicleType = VehicleType.FAMILY;
-        RequestType requestType = RequestType.EQUALS;
         List<Vehicle> returnedVehicles = new ArrayList<>();
         when(vehicleManagementServiceMock.
-                getVehicleByVehicleType(vehicleType, requestType)).thenReturn(returnedVehicles);
+                getVehicleByVehicleType(vehicleType)).thenReturn(returnedVehicles);
         boolean exceptionThrown = false;
 
         // Exercise
         try{
             GetVehicleResponse response = vehicleManagementController.
-                    getVehicleByVehicleType(vehicleType, requestType);
+                    getVehicleByVehicleType(vehicleType);
         }catch(VehicleNotFoundException notFoundException){
             exceptionThrown=true;
         }
@@ -438,7 +435,7 @@ public class VehicleManagementControllerTests {
         // Verify
         assertTrue(exceptionThrown);
         verify(vehicleManagementServiceMock, times(1)).
-                getVehicleByVehicleType(vehicleType, requestType);
+                getVehicleByVehicleType(vehicleType);
 
         // Teardown - no teardown stage
     }

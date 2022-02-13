@@ -19,4 +19,17 @@ public class MatchingUtil {
         throw new InvalidRequestException();
     }
 
+    public boolean isIntMatch(int item, int criteria, RequestType requestType){
+        switch(requestType){
+            case EQUALS:
+                return item == criteria;
+            case NOTEQUALS:
+                return item != criteria;
+            case LESSTHAN:
+                return item < criteria;
+            case GREATERTHAN:
+                return item > criteria;
+        }
+        throw new InvalidRequestException();
+    }
 }

@@ -99,10 +99,9 @@ public class VehicleManagementController {
     // Response --> 200 (OK), GetVehicleResponse
     @GetMapping(value = "vehicles/{vehicleType}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetVehicleResponse getVehicleByVehicleType(@PathVariable VehicleType vehicleType,
-                                                      @PathVariable RequestType requestType){
+    public GetVehicleResponse getVehicleByVehicleType(@PathVariable VehicleType vehicleType){
         List<Vehicle> matchingVehicles =
-                vehicleManagementService.getVehicleByVehicleType(vehicleType, requestType);
+                vehicleManagementService.getVehicleByVehicleType(vehicleType);
         if(matchingVehicles.isEmpty()){
             throw new VehicleNotFoundException();
         }else return new GetVehicleResponse(matchingVehicles);

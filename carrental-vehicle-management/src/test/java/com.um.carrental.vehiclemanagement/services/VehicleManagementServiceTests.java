@@ -233,7 +233,7 @@ public class VehicleManagementServiceTests {
                 VehicleType.COMMERCIAL, 120.0, 10));
         returnedVehicleList.add(new VehicleEntity("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        returnedVehicleList.add(new VehicleEntity("ADL 190",
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
         when(repository.findAll()).thenReturn(returnedVehicleList);
 
@@ -271,7 +271,7 @@ public class VehicleManagementServiceTests {
                 VehicleType.COMMERCIAL, 120.0, 10));
         returnedVehicleList.add(new VehicleEntity("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        returnedVehicleList.add(new VehicleEntity("ADL 190",
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
         when(repository.findAll()).thenReturn(returnedVehicleList);
 
@@ -282,7 +282,7 @@ public class VehicleManagementServiceTests {
                 VehicleType.MOTORCYCLE, 125.0, 3));
         expectedResponse.add(new Vehicle("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        expectedResponse.add(new Vehicle("ADL 190",
+        expectedResponse.add(new Vehicle("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
 
         // Exercise
@@ -313,7 +313,7 @@ public class VehicleManagementServiceTests {
                 VehicleType.COMMERCIAL, 120.0, 10));
         returnedVehicleList.add(new VehicleEntity("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        returnedVehicleList.add(new VehicleEntity("ADL 190",
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
         when(repository.findAll()).thenReturn(returnedVehicleList);
 
@@ -322,7 +322,7 @@ public class VehicleManagementServiceTests {
                 VehicleType.MOTORCYCLE, 125.0, 3));
         expectedResponse.add(new Vehicle("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        expectedResponse.add(new Vehicle("ADL 190",
+        expectedResponse.add(new Vehicle("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
 
         // Exercise
@@ -353,7 +353,7 @@ public class VehicleManagementServiceTests {
                 VehicleType.COMMERCIAL, 120.0, 10));
         returnedVehicleList.add(new VehicleEntity("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        returnedVehicleList.add(new VehicleEntity("ADL 190",
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
         when(repository.findAll()).thenReturn(returnedVehicleList);
 
@@ -376,6 +376,124 @@ public class VehicleManagementServiceTests {
     public void getVehicleByPriceEquals(){
         // Setup
         double price = 120;
+        RequestType requestType = RequestType.EQUALS;
+
+        List<VehicleEntity> returnedVehicleList= new ArrayList<>();
+        returnedVehicleList.add(new VehicleEntity("ABC 123",
+                VehicleType.FAMILY, 100.0, 12));
+        returnedVehicleList.add(new VehicleEntity("AFC 125",
+                VehicleType.MOTORCYCLE, 125.0, 3));
+        returnedVehicleList.add(new VehicleEntity("ABC 125",
+                VehicleType.FAMILY, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADB 190",
+                VehicleType.COMMERCIAL, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADL 190",
+                VehicleType.COMMERCIAL, 190.0, 9));
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
+                VehicleType.MOTORCYCLE, 80.0, 3));
+        when(repository.findAll()).thenReturn(returnedVehicleList);
+
+        List<Vehicle> expectedResponse = new ArrayList<>();
+        expectedResponse.add(new Vehicle("ABC 125",
+                VehicleType.FAMILY, 120.0, 10));
+        expectedResponse.add(new Vehicle("ADB 190",
+                VehicleType.COMMERCIAL, 120.0, 10));
+
+        // Exercise
+        List<Vehicle> response = vehicleManagementService
+                .getVehicleByPrice(price, requestType);
+
+        // Verify
+        assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(repository, times(1)).findAll();
+
+        // Teardown -- no teardown stage
+    }
+
+    @Test
+    public void getVehicleByPriceNotEquals(){
+        // Setup
+        double price = 120;
+        RequestType requestType = RequestType.NOTEQUALS;
+
+        List<VehicleEntity> returnedVehicleList= new ArrayList<>();
+        returnedVehicleList.add(new VehicleEntity("ABC 123",
+                VehicleType.FAMILY, 100.0, 12));
+        returnedVehicleList.add(new VehicleEntity("AFC 125",
+                VehicleType.MOTORCYCLE, 125.0, 3));
+        returnedVehicleList.add(new VehicleEntity("ABC 125",
+                VehicleType.FAMILY, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADB 190",
+                VehicleType.COMMERCIAL, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADL 190",
+                VehicleType.COMMERCIAL, 190.0, 9));
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
+                VehicleType.MOTORCYCLE, 80.0, 3));
+        when(repository.findAll()).thenReturn(returnedVehicleList);
+
+        List<Vehicle> expectedResponse = new ArrayList<>();
+        expectedResponse.add(new Vehicle("ABC 123",
+                VehicleType.FAMILY, 100.0, 12));
+        expectedResponse.add(new Vehicle("AFC 125",
+                VehicleType.MOTORCYCLE, 125.0, 3));
+        expectedResponse.add(new Vehicle("ADL 190",
+                VehicleType.COMMERCIAL, 190.0, 9));
+        expectedResponse.add(new Vehicle("ADL 193",
+                VehicleType.MOTORCYCLE, 80.0, 3));
+
+        // Exercise
+        List<Vehicle> response = vehicleManagementService
+                .getVehicleByPrice(price, requestType);
+
+        // Verify
+        assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(repository, times(1)).findAll();
+
+        // Teardown -- no teardown stage
+    }
+
+    @Test
+    public void getVehicleByPriceLessThan(){
+        // Setup
+        double price = 120;
+        RequestType requestType = RequestType.LESSTHAN;
+
+        List<VehicleEntity> returnedVehicleList= new ArrayList<>();
+        returnedVehicleList.add(new VehicleEntity("ABC 123",
+                VehicleType.FAMILY, 100.0, 12));
+        returnedVehicleList.add(new VehicleEntity("AFC 125",
+                VehicleType.MOTORCYCLE, 125.0, 3));
+        returnedVehicleList.add(new VehicleEntity("ABC 125",
+                VehicleType.FAMILY, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADB 190",
+                VehicleType.COMMERCIAL, 120.0, 10));
+        returnedVehicleList.add(new VehicleEntity("ADL 190",
+                VehicleType.COMMERCIAL, 190.0, 9));
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
+                VehicleType.MOTORCYCLE, 80.0, 3));
+        when(repository.findAll()).thenReturn(returnedVehicleList);
+
+        List<Vehicle> expectedResponse = new ArrayList<>();
+        expectedResponse.add(new Vehicle("ABC 123",
+                VehicleType.FAMILY, 100.0, 12));
+        expectedResponse.add(new Vehicle("ADL 193",
+                VehicleType.MOTORCYCLE, 80.0, 3));
+
+        // Exercise
+        List<Vehicle> response = vehicleManagementService
+                .getVehicleByPrice(price, requestType);
+
+        // Verify
+        assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(repository, times(1)).findAll();
+
+        // Teardown -- no teardown stage
+    }
+
+    @Test
+    public void getVehicleByPriceGreaterThan(){
+        // Setup
+        double price = 120;
         RequestType requestType = RequestType.GREATERTHAN;
 
         List<VehicleEntity> returnedVehicleList= new ArrayList<>();
@@ -389,15 +507,15 @@ public class VehicleManagementServiceTests {
                 VehicleType.COMMERCIAL, 120.0, 10));
         returnedVehicleList.add(new VehicleEntity("ADL 190",
                 VehicleType.COMMERCIAL, 190.0, 9));
-        returnedVehicleList.add(new VehicleEntity("ADL 190",
+        returnedVehicleList.add(new VehicleEntity("ADL 193",
                 VehicleType.MOTORCYCLE, 80.0, 3));
         when(repository.findAll()).thenReturn(returnedVehicleList);
 
         List<Vehicle> expectedResponse = new ArrayList<>();
-        expectedResponse.add(new Vehicle("ABC 125",
-                VehicleType.FAMILY, 120.0, 10));
-        expectedResponse.add(new Vehicle("ADB 190",
-                VehicleType.COMMERCIAL, 120.0, 10));
+        expectedResponse.add(new Vehicle("AFC 125",
+                VehicleType.MOTORCYCLE, 125.0, 3));
+        expectedResponse.add(new Vehicle("ADL 190",
+                VehicleType.COMMERCIAL, 190.0, 9));
 
         // Exercise
         List<Vehicle> response = vehicleManagementService

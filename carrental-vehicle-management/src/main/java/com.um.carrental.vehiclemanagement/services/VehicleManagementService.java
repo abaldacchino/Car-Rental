@@ -72,7 +72,7 @@ public class VehicleManagementService {
 
         while(iterator.hasNext()){
             VehicleEntity vehicleEntity = iterator.next();
-            if(matcher.isDoubleMatch(vehicleEntity.getCapacity(),
+            if(matcher.isIntMatch(vehicleEntity.getCapacity(),
                     capacity, requestType)){
                 matchingVehicles.add(mapper.map(vehicleEntity, Vehicle.class));
             }
@@ -81,11 +81,21 @@ public class VehicleManagementService {
     }
 
     public List<Vehicle> getVehicleByPrice(double price, RequestType requestType){
+        List<VehicleEntity> vehicleEntityList = repository.findAll();
+        Iterator<VehicleEntity> iterator = vehicleEntityList.listIterator();
+        List<Vehicle> matchingVehicles = new ArrayList<>();
 
-        return null;
+        while(iterator.hasNext()){
+            VehicleEntity vehicleEntity = iterator.next();
+            if(matcher.isDoubleMatch(vehicleEntity.getPrice(),
+                    price, requestType)){
+                matchingVehicles.add(mapper.map(vehicleEntity, Vehicle.class));
+            }
+        }
+        return matchingVehicles;
     }
 
-    public List<Vehicle> getVehicleByVehicleType(VehicleType vehicleType, RequestType requestType){
+    public List<Vehicle> getVehicleByVehicleType(VehicleType vehicleType){
 
         return null;
     }

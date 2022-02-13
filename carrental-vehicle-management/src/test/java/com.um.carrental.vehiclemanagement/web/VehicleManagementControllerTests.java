@@ -252,7 +252,6 @@ public class VehicleManagementControllerTests {
         int capacity = 4;
         RequestType requestType = RequestType.EQUALS;
         List<Vehicle> returnedVehicles = new ArrayList<>();
-        GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
         when(vehicleManagementServiceMock.
                 getVehicleByCapacity(capacity, requestType)).thenReturn(returnedVehicles);
         boolean exceptionThrown = false;
@@ -270,6 +269,91 @@ public class VehicleManagementControllerTests {
         assertTrue(exceptionThrown);
         verify(vehicleManagementServiceMock, times(1)).
                 getVehicleByCapacity(capacity, requestType);
+
+        // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testGetOneVehicleByPrice(){
+        // Setup
+        double price = 80.0;
+        RequestType requestType = RequestType.EQUALS;
+        List<Vehicle> returnedVehicles = new ArrayList<>();
+        returnedVehicles.add(new Vehicle("ABC 123", VehicleType.FAMILY,
+                price, 8));
+        GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
+        when(vehicleManagementServiceMock.
+                getVehicleByPrice(price, requestType)).thenReturn(returnedVehicles);
+
+        // Exercise
+        GetVehicleResponse response = vehicleManagementController.
+                getVehicleByPrice(price, requestType);
+
+        // Verify
+        assertNotNull(response);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, response));
+        verify(vehicleManagementServiceMock, times(1)).
+                getVehicleByPrice(price, requestType);
+
+        // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testGetFiveVehiclesByPrice(){
+        // Setup
+        double price = 100.0;
+        RequestType requestType = RequestType.EQUALS;
+        List<Vehicle> returnedVehicles = new ArrayList<>();
+        returnedVehicles.add(new Vehicle("ABC 123", VehicleType.FAMILY,
+                price, 12));
+        returnedVehicles.add(new Vehicle("ABC 124", VehicleType.MOTORCYCLE,
+                price, 7));
+        returnedVehicles.add(new Vehicle("ABC 125", VehicleType.COMMERCIAL,
+                price, 9));
+        returnedVehicles.add(new Vehicle("ABC 126", VehicleType.COMMERCIAL,
+                price, 10));
+        returnedVehicles.add(new Vehicle("AMC 123", VehicleType.FAMILY,
+                price, 10));
+        GetVehicleResponse expectedResponse = new GetVehicleResponse(returnedVehicles);
+        when(vehicleManagementServiceMock.
+                getVehicleByPrice(price, requestType)).thenReturn(returnedVehicles);
+
+        // Exercise
+        GetVehicleResponse response = vehicleManagementController.
+                getVehicleByPrice(price, requestType);
+
+        // Verify
+        assertNotNull(response);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, response));
+        verify(vehicleManagementServiceMock, times(1)).
+                getVehicleByPrice(price, requestType);
+
+        // Teardown - no teardown stage
+    }
+
+    @Test
+    public void testGetZeroVehiclesByPrice(){
+        // Setup
+        double price =50.60;
+        RequestType requestType = RequestType.EQUALS;
+        List<Vehicle> returnedVehicles = new ArrayList<>();
+        when(vehicleManagementServiceMock.
+                getVehicleByPrice(price, requestType)).thenReturn(returnedVehicles);
+        boolean exceptionThrown = false;
+
+        // Exercise
+        try{
+            GetVehicleResponse response = vehicleManagementController.
+                    getVehicleByPrice(price, requestType);
+        }catch(VehicleNotFoundException notFoundException){
+            exceptionThrown=true;
+        }
+
+
+        // Verify
+        assertTrue(exceptionThrown);
+        verify(vehicleManagementServiceMock, times(1)).
+                getVehicleByPrice(price, requestType);
 
         // Teardown - no teardown stage
     }

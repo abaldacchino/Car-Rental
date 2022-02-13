@@ -64,7 +64,7 @@ public class VehicleManagementController {
 
     // Get a vehicle by various attributes
     // Method --> GET
-    // Request --> GetVehicleRequest
+    // Request --> capacity, requestType
     // Response --> 200 (OK), GetVehicleResponse
     @GetMapping(value = "vehicles/{capacity}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -72,6 +72,21 @@ public class VehicleManagementController {
                                          @PathVariable RequestType requestType){
         List<Vehicle> matchingVehicles =
                 vehicleManagementService.getVehicleByCapacity(capacity, requestType);
+        if(matchingVehicles.isEmpty()){
+            throw new VehicleNotFoundException();
+        }else return new GetVehicleResponse(matchingVehicles);
+    }
+
+    // Get a vehicle by various attributes
+    // Method --> GET
+    // Request --> capacity, requestType
+    // Response --> 200 (OK), GetVehicleResponse
+    @GetMapping(value = "vehicles/{price}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetVehicleResponse getVehicleByPrice(@PathVariable double price,
+                                                   @PathVariable RequestType requestType){
+        List<Vehicle> matchingVehicles =
+                vehicleManagementService.getVehicleByPrice(price, requestType);
         if(matchingVehicles.isEmpty()){
             throw new VehicleNotFoundException();
         }else return new GetVehicleResponse(matchingVehicles);

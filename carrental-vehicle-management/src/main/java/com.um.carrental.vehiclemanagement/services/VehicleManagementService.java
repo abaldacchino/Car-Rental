@@ -63,4 +63,9 @@ public class VehicleManagementService {
 
         return null;
     }
+
+    public List<Vehicle> getVehicleByPrice(double price, RequestType requestType){
+
+        return null;
+    }
 }

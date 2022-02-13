@@ -175,7 +175,7 @@ public class VehicleManagementServiceTests {
     }
 
     @Test
-    public void getPresentVehicleById(){
+    public void getPresentVehicleByNumberPlate(){
         // Setup
 
         String numberPlate = "ABC 123";
@@ -192,6 +192,25 @@ public class VehicleManagementServiceTests {
         assertTrue(expectedResponse.equals(response));
         verify(repository, times(1)).existsById(numberPlate);
         verify(repository, times(1)).getById(numberPlate);
+
+        // Teardown -- no teardown needed
+    }
+
+    @Test
+    public void getNotPresentVehicleByNumberPlate(){
+        // Setup
+
+        String numberPlate = "ABC 123";
+        when(repository.existsById(numberPlate)).thenReturn(false);
+
+        // Exercise
+        Vehicle response = vehicleManagementService.getVehicleByNumberPlate(numberPlate);
+
+        // Verify
+
+        assertNull(response);
+        verify(repository, times(1)).existsById(numberPlate);
+        verify(repository, times(0)).getById(numberPlate);
 
         // Teardown -- no teardown needed
     }

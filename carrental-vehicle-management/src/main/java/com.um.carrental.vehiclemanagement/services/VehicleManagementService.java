@@ -96,7 +96,16 @@ public class VehicleManagementService {
     }
 
     public List<Vehicle> getVehicleByVehicleType(VehicleType vehicleType){
+        List<VehicleEntity> vehicleEntityList = repository.findAll();
+        Iterator<VehicleEntity> iterator = vehicleEntityList.listIterator();
+        List<Vehicle> matchingVehicles = new ArrayList<>();
 
-        return null;
+        while(iterator.hasNext()){
+            VehicleEntity vehicleEntity = iterator.next();
+            if(vehicleEntity.getVehicleType() == vehicleType){
+                matchingVehicles.add(mapper.map(vehicleEntity, Vehicle.class));
+            }
+        }
+        return matchingVehicles;
     }
 }

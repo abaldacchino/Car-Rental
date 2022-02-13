@@ -41,7 +41,6 @@ public class VehicleManagementServiceTests {
 
         // Verify
 
-        assertNotNull(entered, "Response is null.");
         assertEquals(expectedEntered, entered);
 
         //Checking that .existsById is called once
@@ -66,7 +65,6 @@ public class VehicleManagementServiceTests {
 
         // Verify
 
-        assertNotNull(entered, "Response is null.");
         assertEquals(expectedEntered, entered);
 
         //Checking that .existsById is called once
@@ -91,7 +89,6 @@ public class VehicleManagementServiceTests {
 
         // Verify
 
-        assertNotNull(entered, "Response is null.");
         assertEquals(expectedEntered, entered);
 
         //Checking that .existsById is called once
@@ -120,7 +117,6 @@ public class VehicleManagementServiceTests {
 
         // Verify
 
-        assertNotNull(entered, "Response is null.");
         assertEquals(expectedEntered, entered);
 
         //Checking that .existsById is called once
@@ -215,4 +211,16 @@ public class VehicleManagementServiceTests {
         // Teardown -- no teardown needed
     }
 
+
+    @Test
+    public void getVehicleByCapacityEquals(){
+        // Setup
+
+
+        // Exercise
+
+        // Verify
+
+        // Teardown -- no teardown stage
+    }
 }

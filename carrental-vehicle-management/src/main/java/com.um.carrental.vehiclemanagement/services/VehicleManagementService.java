@@ -111,6 +111,10 @@ public class VehicleManagementService {
     }
 
     public boolean updateVehicle(UpdateVehicleRequest request){
+        if(repository.existsById(request.getNumberPlate())){
+            repository.save(mapper.map(request, VehicleEntity.class));
+            return true;
+        }
         return false;
     }
 }

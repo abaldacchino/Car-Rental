@@ -55,13 +55,17 @@ public class VehicleManagementController {
     // Get a vehicle by ID (numberPlate)
     // Method --> GET
     // Request --> numberPlate
-    // Response --> 200 (OK), GetVehicleByIdResponse
+    // Response --> 200 (OK), GetVehicleByNumberPlateResponse
     @GetMapping(value = "vehicles/{numberPlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetVehicleByNumberPlateResponse getVehicleByNumberPlate(@PathVariable String numberPlate){
+    public GetVehicleByNumberPlateResponse getVehicleByNumberPlate(
+            @RequestParam(value="numberPlate") String numberPlate){
         Vehicle returnedVehicle = vehicleManagementService.getVehicleByNumberPlate(numberPlate);
         if(returnedVehicle == null)throw new VehicleNotFoundException();
-        return mapper.map(returnedVehicle, GetVehicleByNumberPlateResponse.class);
+        GetVehicleByNumberPlateResponse response =
+                mapper.map(returnedVehicle, GetVehicleByNumberPlateResponse.class);
+        System.out.println(response.getNumberPlate());
+        return response;
     }
 
     // Get a vehicle by capacity
@@ -112,8 +116,7 @@ public class VehicleManagementController {
     // Method --> PUT
     // Request --> UpdateVehicleRequest
     // Response --> 204 (No Content)
-    ///********* TO DO: Change mapping to post ***********
-    @GetMapping(value = "vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "vehicles", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public GetVehicleResponse updateVehicle(@RequestBody UpdateVehicleRequest request){
         boolean found = vehicleManagementService.updateVehicle(request);

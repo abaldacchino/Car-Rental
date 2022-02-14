@@ -5,6 +5,7 @@ import com.um.carrental.vehiclemanagement.data.entities.VehicleEntity;
 import com.um.carrental.vehiclemanagement.data.respositories.VehicleRepository;
 import com.um.carrental.vehiclemanagement.enums.RequestType;
 import com.um.carrental.vehiclemanagement.enums.VehicleType;
+import com.um.carrental.vehiclemanagement.web.requests.UpdateVehicleRequest;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -563,5 +564,25 @@ public class VehicleManagementServiceTests {
         verify(repository, times(1)).findAll();
 
         // Teardown -- no teardown stage
+    }
+
+    @Test
+    public void testUpdatePresentVehicle(){
+        // Setup
+        String numberPlate = "ABC 123";
+        UpdateVehicleRequest request = new UpdateVehicleRequest(numberPlate, VehicleType.FAMILY,
+                120, 12);
+        when(repository.existsById(numberPlate)).thenReturn(true);
+
+        // Exercise
+        boolean found = vehicleManagementService.updateVehicle(request);
+
+        // Verify
+        assertTrue(found);
+        verify(repository, times(1)).existsById(numberPlate);
+        verify(repository, times(1)).save(any(VehicleEntity.class));
+
+        // Teardown -- no teardown needed
+
     }
 }

@@ -586,6 +586,7 @@ public class VehicleManagementServiceTests {
 
     }
 
+    @Test
     public void testUpdateNotPresentVehicle(){
         // Setup
         String numberPlate = "ABC 123";
@@ -599,7 +600,7 @@ public class VehicleManagementServiceTests {
         // Verify
         assertFalse(found);
         verify(repository, times(1)).existsById(numberPlate);
-        verify(repository, times(1)).save(any(VehicleEntity.class));
+        verify(repository, times(0)).save(any(VehicleEntity.class));
 
         // Teardown -- no teardown needed
 

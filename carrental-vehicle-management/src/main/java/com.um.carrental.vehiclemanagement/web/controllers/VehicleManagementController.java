@@ -112,6 +112,7 @@ public class VehicleManagementController {
     // Method --> PUT
     // Request --> UpdateVehicleRequest
     // Response --> 204 (No Content)
+    ///********* TO DO: Change mapping to post ***********
     @GetMapping(value = "vehicles", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public GetVehicleResponse updateVehicle(@RequestBody UpdateVehicleRequest request){

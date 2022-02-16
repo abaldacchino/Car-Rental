@@ -1,4 +1,4 @@
-package com.um.carrental.vehiclemanagement.configuration;
+package com.um.carrental.bookingmanagement.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.um.carrental.vehiclemanagement.web.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("com.um.carrental.bookingmanagement.web.controllers"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
@@ -30,7 +30,7 @@ public class SwaggerConfig {
 
     ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Car Rental Vehicle Management")
+                .title("Car Rental Booking Management")
                 .license("")
                 .licenseUrl("http://unlicense.org")
                 .termsOfServiceUrl("")

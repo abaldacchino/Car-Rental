@@ -1,4 +1,4 @@
-package com.um.carrental.vehiclemanagement.configuration;
+package com.um.carrental.bookingmanagement.configuration;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

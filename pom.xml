@@ -198,6 +198,7 @@
     <modules>
         <module>carrental-vehicle-management</module>
         <module>carrental-customer-management</module>
+        <module>carrental-booking-management</module>
     </modules>
 
 </project>

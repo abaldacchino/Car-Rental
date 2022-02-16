@@ -1,4 +1,4 @@
-package com.um.carrental.vehiclemanagement.configuration;
+package com.um.carrental.bookingmanagement.configuration;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

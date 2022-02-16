@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="carrental-customer-management" />
         <module name="carrental-vehicle-management" />
+        <module name="carrental-booking-management" />
       </profile>
     </annotationProcessing>
   </component>

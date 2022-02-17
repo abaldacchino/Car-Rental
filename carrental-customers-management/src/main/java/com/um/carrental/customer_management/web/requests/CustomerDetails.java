@@ -5,13 +5,11 @@ public class CustomerDetails {
     private String name;
     private String surname;
     private int age;
-    private String Id; // unique for every user
 
     public CustomerDetails(String name, String surname, int age, String Id){
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.Id = Id;
     }
 
     public CustomerDetails(){
@@ -35,12 +33,6 @@ public class CustomerDetails {
     }
     public int getAge(){
         return age;
-    }
-    public void setId(String Id) {
-        this.Id = Id;
-    }
-    public String getId(){
-        return Id;
     }
 
 }

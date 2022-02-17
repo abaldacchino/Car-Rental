@@ -1,7 +1,7 @@
 package com.um.carrental.vehiclemanagement.services;
 
 import com.um.carrental.vehiclemanagement.enums.RequestType;
-import com.um.carrental.vehiclemanagement.exceptions.InvalidRequestException;
+import com.um.carrental.vehiclemanagement.exceptions.InvalidRequestTypeException;
 
 public class MatchingUtil {
 
@@ -16,7 +16,7 @@ public class MatchingUtil {
             case GREATERTHAN:
                 return item > criteria;
         }
-        throw new InvalidRequestException();
+        throw new InvalidRequestTypeException();
     }
 
     public boolean isIntMatch(int item, int criteria, RequestType requestType){
@@ -30,6 +30,6 @@ public class MatchingUtil {
             case GREATERTHAN:
                 return item > criteria;
         }
-        throw new InvalidRequestException();
+        throw new InvalidRequestTypeException();
     }
 }

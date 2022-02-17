@@ -94,6 +94,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Retrofit is used for messaging feature -->
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>

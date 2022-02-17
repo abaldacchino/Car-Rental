@@ -1,16 +1,10 @@
-package com.um.carrental.bookingmanagement.data.entities;
+package com.um.carrental.bookingmanagement.services;
 
 import com.um.carrental.bookingmanagement.enums.BookingStatus;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
 import java.time.LocalDateTime;
 
-@Entity
-public class BookingEntity {
-    @Id
+public class Booking {
     String bookingID;
 
     String numberPlate;
@@ -21,13 +15,12 @@ public class BookingEntity {
 
     int hours;
 
-    @Enumerated(EnumType.STRING)
     BookingStatus status;
 
-    public BookingEntity() {
+    public Booking() {
     }
 
-    public BookingEntity(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status) {
+    public Booking(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status) {
         this.bookingID = bookingID;
         this.numberPlate = numberPlate;
         this.customerID = customerID;

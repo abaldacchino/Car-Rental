@@ -2,7 +2,6 @@ package com.um.carrental.bookingmanagement.web.controllers;
 
 import com.um.carrental.bookingmanagement.services.BookingManagementService;
 import com.um.carrental.bookingmanagement.web.requests.AddBookingRequest;
-import com.um.carrental.bookingmanagement.web.requests.GetBookingRequest;
 import com.um.carrental.bookingmanagement.web.responses.AddBookingResponse;
 import com.um.carrental.bookingmanagement.web.responses.GetBookingResponse;
 import org.modelmapper.ModelMapper;
@@ -39,6 +38,6 @@ public class BookingManagementController {
     @PostMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetBookingResponse getBooking(@RequestParam(value="bookingID") String bookingID){
-        return null;
+        return mapper.map(bookingManagementService.getBooking(bookingID), GetBookingResponse.class);
     }
 }

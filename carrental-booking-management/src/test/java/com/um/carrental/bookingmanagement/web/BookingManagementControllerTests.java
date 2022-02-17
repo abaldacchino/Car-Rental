@@ -6,7 +6,6 @@ import com.um.carrental.bookingmanagement.services.Booking;
 import com.um.carrental.bookingmanagement.services.BookingManagementService;
 import com.um.carrental.bookingmanagement.web.controllers.BookingManagementController;
 import com.um.carrental.bookingmanagement.web.requests.AddBookingRequest;
-import com.um.carrental.bookingmanagement.web.requests.GetBookingRequest;
 import com.um.carrental.bookingmanagement.web.responses.AddBookingResponse;
 import com.um.carrental.bookingmanagement.web.responses.GetBookingResponse;
 import org.junit.jupiter.api.Test;
@@ -72,26 +71,25 @@ public class BookingManagementControllerTests {
     @Test
     public void testGetBookingValid(){
         // Setup
-        GetBookingRequest request =
-                new GetBookingRequest("3988828b-52d0-4be8-9e19-24f963cc9f11");
+        String bookingID = "3988828b-52d0-4be8-9e19-24f963cc9f11";
 
         LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(1),
                 LocalTime.of(14, 0));
 
         GetBookingResponse expectedResponse =
-                new GetBookingResponse("3988828b-52d0-4be8-9e19-24f963cc9f11",
-                        "ABC 123", "383702L", date, 3, BookingStatus.ACCEPTED);
+                new GetBookingResponse(bookingID,"ABC 123",
+                        "383702L", date, 3, BookingStatus.ACCEPTED);
         Booking returnedBooking = mapper.map(expectedResponse, Booking.class);
-        when(bookingManagementServiceMock.getBooking(request)).thenReturn(returnedBooking);
+        when(bookingManagementServiceMock.getBooking(bookingID)).thenReturn(returnedBooking);
 
         // Exercise
         GetBookingResponse response =
-                bookingManagementController.getBooking(request.getBookingID());
+                bookingManagementController.getBooking(bookingID);
 
         // Verify
         assertNotNull(response);
         assertTrue(DeepEquals.deepEquals(expectedResponse, response));
-        verify(bookingManagementServiceMock, times(1)).getBooking(request);
+        verify(bookingManagementServiceMock, times(1)).getBooking(bookingID);
 
         // Teardown -- no teardown stage
     }

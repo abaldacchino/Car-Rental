@@ -5,6 +5,7 @@ import com.um.carrental.bookingmanagement.data.repositories.BookingRepository;
 import com.um.carrental.bookingmanagement.enums.BookingStatus;
 import com.um.carrental.bookingmanagement.exceptions.InvalidBookingRequestException;
 import com.um.carrental.bookingmanagement.web.requests.AddBookingRequest;
+import com.um.carrental.bookingmanagement.web.requests.GetBookingRequest;
 import com.um.carrental.bookingmanagement.web.responses.AddBookingResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,9 @@ public class BookingManagementService {
         repository.save(bookingEntity);
 
         return new AddBookingResponse(bookingEntity.getBookingID(), bookingEntity.getStatus());
+    }
+
+    public Booking getBooking(GetBookingRequest request){
+        return null;
     }
 }

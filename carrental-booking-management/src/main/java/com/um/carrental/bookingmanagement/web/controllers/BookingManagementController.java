@@ -2,7 +2,9 @@ package com.um.carrental.bookingmanagement.web.controllers;
 
 import com.um.carrental.bookingmanagement.services.BookingManagementService;
 import com.um.carrental.bookingmanagement.web.requests.AddBookingRequest;
+import com.um.carrental.bookingmanagement.web.requests.GetBookingRequest;
 import com.um.carrental.bookingmanagement.web.responses.AddBookingResponse;
+import com.um.carrental.bookingmanagement.web.responses.GetBookingResponse;
 import org.modelmapper.ModelMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +30,15 @@ public class BookingManagementController {
     public AddBookingResponse addBooking(@RequestBody AddBookingRequest request){
         AddBookingResponse response = bookingManagementService.addBooking(request);
         return response;
+    }
+
+    // Get a booking
+    // Method --> POST
+    // Request --> GetBookingRequest
+    // Response --> 200 (OK), GetBookingResponse
+    @PostMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetBookingResponse getBooking(@RequestParam(value="bookingID") String bookingID){
+        return null;
     }
 }

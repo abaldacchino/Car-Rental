@@ -26,6 +26,7 @@ public class BookingManagementController {
     @PostMapping(value = "booking", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public AddBookingResponse addBooking(@RequestBody AddBookingRequest request){
-        return null;
+        AddBookingResponse response = bookingManagementService.addBooking(request);
+        return response;
     }
 }

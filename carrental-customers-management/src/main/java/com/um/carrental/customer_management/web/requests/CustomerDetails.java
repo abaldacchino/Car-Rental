@@ -6,7 +6,7 @@ public class CustomerDetails {
 //     private String surname;
     private int age;
 
-    public CustomerDetails(String name, String surname, int age){
+    public CustomerDetails(String name, int age){
         this.name = name;
        //  this.surname = surname;
         this.age = age;

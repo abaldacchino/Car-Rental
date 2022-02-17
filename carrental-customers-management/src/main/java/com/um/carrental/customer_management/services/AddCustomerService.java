@@ -17,7 +17,7 @@ public class AddCustomerService {
     @Autowired
     AddCustomerRepository repository;
 
-    public Customer addCustomer(CustomerSubmission customerSubmission){
+    public String addCustomer(CustomerSubmission customerSubmission){
         Customer customer = mapper.map(customerSubmission, Customer.class);
 
         // call repo layer to save data
@@ -25,7 +25,7 @@ public class AddCustomerService {
         CustomerEntity savedEntity = repository.save(customerEntity);
 
         Customer savedCustomer = mapper.map(savedEntity, Customer.class);
-       
-        return savedCustomer;
+
+        return savedCustomer.getCustomerId();
     }
 }

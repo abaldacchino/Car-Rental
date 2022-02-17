@@ -35,8 +35,8 @@ public class CustomerController {
 
         CustomerSubmission customerSubmission = mapper.map(request, CustomerSubmission.class);
         customerSubmission.setCustomerId(customerId);
-        Customer customer = addCustomerService.addCustomer(customerSubmission);
-        customerId = customer.getCustomerId();
+        // Customer customer = addCustomerService.addCustomer(customerSubmission);
+        customerId = addCustomerService.addCustomer(customerSubmission); // customer.getCustomerId();
 
         return new SubmitCustomerResponse(customerId);
     }

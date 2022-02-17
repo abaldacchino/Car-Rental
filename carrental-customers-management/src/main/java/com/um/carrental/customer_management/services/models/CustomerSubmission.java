@@ -2,17 +2,17 @@ package com.um.carrental.customer_management.services.models;
 
 import java.util.List;
 
-public class AddCustomerSubmission {
+public class CustomerSubmission {
 
     private List<CustomerDetails> customerDetails;
-    private String customerId;
+     private String customerId;
 
-    public AddCustomerSubmission(List<CustomerDetails> customerDetails, String customerId){
+    public CustomerSubmission(List<CustomerDetails> customerDetails, String customerId){
         this.customerDetails = customerDetails;
-        this.customerId = customerId;
+         this.customerId = customerId;
     }
 
-    public AddCustomerSubmission(){
+    public CustomerSubmission(){
 
     }
     public void setCustomerDetails(List<CustomerDetails> customerDetails){

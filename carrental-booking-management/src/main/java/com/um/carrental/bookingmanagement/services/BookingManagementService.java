@@ -28,7 +28,7 @@ public class BookingManagementService {
 
         BookingEntity bookingEntity = mapper.map(request, BookingEntity.class);
         if(!bookingScheduler.noBookingOverlap(request.getStartTime(),
-                request.getHours(), repository.findAll())){
+                request.getHours(), repository.findAll(), request.getNumberPlate())){
             bookingEntity.setStatus(BookingStatus.REJECTED);
         }else bookingEntity.setStatus(BookingStatus.ACCEPTED);
 

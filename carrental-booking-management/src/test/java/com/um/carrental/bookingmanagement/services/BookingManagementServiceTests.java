@@ -105,7 +105,7 @@ public class BookingManagementServiceTests {
                 "383332L", date2, 2, BookingStatus.ACCEPTED));
         // Booking 3 from four days from now 10:00 until 14:00 (same day)
         bookingEntityList.add(new BookingEntity("3", "ADF 123",
-                "383202L", date3, 4, BookingStatus.ACCEPTED));
+                "383202L", date1, 4, BookingStatus.ACCEPTED));
         // Booking 4 was rejected (should be ignored)
         bookingEntityList.add(new BookingEntity("4", "ADF 123",
                 "383203M", date2, 28, BookingStatus.REJECTED));
@@ -123,7 +123,7 @@ public class BookingManagementServiceTests {
         // Verify
 
         assertNotNull(response);
-        assertEquals(response.getStatus(), BookingStatus.REJECTED);
+        assertEquals(BookingStatus.REJECTED, response.getStatus());
         MyAssertions.assertValidUUID(response.getBookingID());
         verify(repositoryMock, times(1)).findAll();
         verify(repositoryMock, times(1)).save(any(BookingEntity.class));

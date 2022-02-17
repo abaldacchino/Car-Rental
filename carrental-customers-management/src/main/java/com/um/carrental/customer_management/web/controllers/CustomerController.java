@@ -1,7 +1,8 @@
 package com.um.carrental.customer_management.web.controllers;
 
 import com.um.carrental.customer_management.services.AddCustomerService;
-import com.um.carrental.customer_management.services.models.AddCustomerSubmission;
+import com.um.carrental.customer_management.services.models.Customer;
+import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
-import java.util.UUID;
 @RestController
 public class CustomerController {
 
@@ -34,12 +34,18 @@ public class CustomerController {
         // Call service layer
         // submitOrder(xxx) --> info that contains ID
 
-        AddCustomerSubmission customerSubmission = mapper.map(request, AddCustomerSubmission.class);
+        CustomerSubmission customerSubmission = mapper.map(request, CustomerSubmission.class);
         customerSubmission.setCustomerId(customerId);
-
+        Customer customer = addCustomerService.addCustomer(customerSubmission);
+        customerId = customer.getCustomerId();
+        //  String orderId = customerOrdersService.submitOrder(orderSubmission);
         // AddCustomerSubmission customerSubmission = new AddCustomerSubmission();
         return new SubmitCustomerResponse(customerId);
-        // return null;
     }
+
+    // @GetMapping()
+    // @ResponseStatus()
+
+
 
 }

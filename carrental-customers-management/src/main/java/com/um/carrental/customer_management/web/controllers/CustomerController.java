@@ -17,7 +17,7 @@ public class CustomerController {
     // exposing one end point
     // HTTP Method is POST
     // used to create a customer - customer submission
-    // expect to receive a request from AddCustomerRequest, X-Id (non-standard header) -> not needed
+    // expect to receive a request from AddCustomerRequest, X-Id (non-standard header)
     // Give back a response -> SubmitCustomerResponse, 201
 
     // new instance of AddCustomerService
@@ -30,7 +30,6 @@ public class CustomerController {
     @PostMapping(value = "customers", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public SubmitCustomerResponse submit(@RequestHeader(name="X-Customer-Id") String customerId,  @RequestBody AddCustomerRequest request){
-        // String customer = UUID.randomUUID().toString();
         // Call service layer
         // submitOrder(xxx) --> info that contains ID
 
@@ -38,14 +37,10 @@ public class CustomerController {
         customerSubmission.setCustomerId(customerId);
         Customer customer = addCustomerService.addCustomer(customerSubmission);
         customerId = customer.getCustomerId();
-        //  String orderId = customerOrdersService.submitOrder(orderSubmission);
-        // AddCustomerSubmission customerSubmission = new AddCustomerSubmission();
+
         return new SubmitCustomerResponse(customerId);
     }
 
     // @GetMapping()
     // @ResponseStatus()
-
-
-
 }

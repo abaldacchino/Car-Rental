@@ -92,6 +92,10 @@ public class BookingManagementService {
         return bookingList;
     }
 
+    public void cancelBooking(String bookingID){
+        
+    }
+
     // Setter for messaging service -- can be used to modify behaviour of calling
     // different microservices ... mostly used for testing
     public void setMessaging(MessagingServiceInterface messaging) {

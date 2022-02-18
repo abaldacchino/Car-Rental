@@ -131,4 +131,19 @@ public class BookingManagementControllerTests {
 
         // Teardown -- no teardown stage
     }
+
+    @Test
+    public void testCancelBooking(){
+        // Setup
+        String bookingID = "3988828b-52d0-4be8-9e19-24f963cc9f11";
+
+        // Exercise
+        bookingManagementController.cancelBooking(bookingID);
+
+        // Verify
+        verify(bookingManagementServiceMock, times(1))
+                .cancelBooking(bookingID);
+
+        // No teardown
+    }
 }

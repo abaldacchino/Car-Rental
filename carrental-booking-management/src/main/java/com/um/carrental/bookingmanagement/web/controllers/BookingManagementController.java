@@ -58,10 +58,10 @@ public class BookingManagementController {
     // Method --> DELETE
     // Request --> String bookingID
     // Response --> 204 (No content)
-    @GetMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelBooking(
             @RequestParam(value="bookingID")String bookingID){
-
+        bookingManagementService.cancelBooking(bookingID);
     }
 }

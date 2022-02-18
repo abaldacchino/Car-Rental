@@ -93,7 +93,7 @@ public class BookingManagementService {
     }
 
     public void cancelBooking(String bookingID){
-        
+
     }
 
     // Setter for messaging service -- can be used to modify behaviour of calling

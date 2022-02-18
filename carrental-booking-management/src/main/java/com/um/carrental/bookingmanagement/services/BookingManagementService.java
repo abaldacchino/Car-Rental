@@ -14,6 +14,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,7 +65,15 @@ public class BookingManagementService {
     }
 
     public List<Booking> getBookingList(BookingStatusQuery bookingStatus){
-        return null;
+        List<BookingEntity> bookingEntityList = repository.findAll();
+        Iterator<BookingEntity> bookingEntityIterator = bookingEntityList.listIterator();
+        List<Booking> bookingList = new ArrayList<>();
+
+        while(bookingEntityIterator.hasNext()){
+            BookingEntity bookingEntity = bookingEntityIterator.next();
+            bookingList.add(mapper.map(bookingEntity, Booking.class));
+        }
+        return bookingList;
     }
 
     // Setter for messaging service -- can be used to modify behaviour of calling

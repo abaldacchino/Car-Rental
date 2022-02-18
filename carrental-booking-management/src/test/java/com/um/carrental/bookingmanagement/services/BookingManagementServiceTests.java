@@ -415,4 +415,160 @@ public class BookingManagementServiceTests {
         verify(repositoryMock, times(1)).findAll();
         // Teardown -- no teardown stage
     }
+
+    @Test
+    public void testGetBookingListAccepted(){
+        // Setup
+        BookingStatusQuery query = BookingStatusQuery.ACCEPTED;
+
+        // Creating dates for existing bookings in system
+        LocalDate dateTwoDaysFromNow = LocalDate.now().plusDays(2);
+        LocalDate dateThreeDaysFromNow = LocalDate.now().plusDays(3);
+        LocalDate dateFourDaysFromNow = LocalDate.now().plusDays(4);
+        LocalDateTime date1 = LocalDateTime.of(dateTwoDaysFromNow, LocalTime.of(14, 0));
+        LocalDateTime date2 = LocalDateTime.of(dateThreeDaysFromNow, LocalTime.of(10, 0));
+        LocalDateTime date3 = LocalDateTime.of(dateFourDaysFromNow, LocalTime.of(10, 0));
+
+        // Creating booking entity list of bookings in system
+        List<BookingEntity> bookingEntityList = new ArrayList<>();
+
+        BookingEntity acceptedBooking1 = new BookingEntity("1", "ABC 123",
+                "383702L", date1, 19, BookingStatus.ACCEPTED, 120);
+        BookingEntity acceptedBooking2 = new BookingEntity("2", "ABC 193",
+                "383332L", date2, 2, BookingStatus.ACCEPTED, 120);
+        BookingEntity cancelledBooking1 = new BookingEntity("3", "ADF 123",
+                "383202L", date3, 4, BookingStatus.CANCELLED, 120);
+        BookingEntity cancelledBooking2 = new BookingEntity("4", "ABC 109",
+                "383332L", date2, 2, BookingStatus.CANCELLED, 120);
+        BookingEntity rejectedBooking1 = new BookingEntity("5", "ADF 123",
+                "383203M", date3, 28, BookingStatus.REJECTED, 120);
+        BookingEntity rejectedBooking2 = new BookingEntity("9", "ADF 123",
+                "383203M", date1, 28, BookingStatus.REJECTED, 120);
+
+        bookingEntityList.add(acceptedBooking1);
+        bookingEntityList.add(acceptedBooking2);
+        bookingEntityList.add(cancelledBooking1);
+        bookingEntityList.add(cancelledBooking2);
+        bookingEntityList.add(rejectedBooking1);
+        bookingEntityList.add(rejectedBooking2);
+        when(repositoryMock.findAll()).thenReturn(bookingEntityList);
+
+        // Expected booking list
+        List<Booking> expectedResponse = new ArrayList<>();
+        expectedResponse.add(mapper.map(acceptedBooking1, Booking.class));
+        expectedResponse.add(mapper.map(acceptedBooking2, Booking.class));
+
+        // Exercise
+        List<Booking> actualResponse = bookingManagementService.getBookingList(query);
+
+        // Verify
+        assertNotNull(actualResponse);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, actualResponse));
+        verify(repositoryMock, times(1)).findAll();
+        // Teardown -- no teardown stage
+    }
+
+    @Test
+    public void testGetBookingListRejected(){
+        // Setup
+        BookingStatusQuery query = BookingStatusQuery.REJECTED;
+
+        // Creating dates for existing bookings in system
+        LocalDate dateTwoDaysFromNow = LocalDate.now().plusDays(2);
+        LocalDate dateThreeDaysFromNow = LocalDate.now().plusDays(3);
+        LocalDate dateFourDaysFromNow = LocalDate.now().plusDays(4);
+        LocalDateTime date1 = LocalDateTime.of(dateTwoDaysFromNow, LocalTime.of(14, 0));
+        LocalDateTime date2 = LocalDateTime.of(dateThreeDaysFromNow, LocalTime.of(10, 0));
+        LocalDateTime date3 = LocalDateTime.of(dateFourDaysFromNow, LocalTime.of(10, 0));
+
+        // Creating booking entity list of bookings in system
+        List<BookingEntity> bookingEntityList = new ArrayList<>();
+
+        BookingEntity acceptedBooking1 = new BookingEntity("1", "ABC 123",
+                "383702L", date1, 19, BookingStatus.ACCEPTED, 120);
+        BookingEntity acceptedBooking2 = new BookingEntity("2", "ABC 193",
+                "383332L", date2, 2, BookingStatus.ACCEPTED, 120);
+        BookingEntity cancelledBooking1 = new BookingEntity("3", "ADF 123",
+                "383202L", date3, 4, BookingStatus.CANCELLED, 120);
+        BookingEntity cancelledBooking2 = new BookingEntity("4", "ABC 109",
+                "383332L", date2, 2, BookingStatus.CANCELLED, 120);
+        BookingEntity rejectedBooking1 = new BookingEntity("5", "ADF 123",
+                "383203M", date3, 28, BookingStatus.REJECTED, 120);
+        BookingEntity rejectedBooking2 = new BookingEntity("9", "ADF 123",
+                "383203M", date1, 28, BookingStatus.REJECTED, 120);
+
+        bookingEntityList.add(rejectedBooking1);
+        bookingEntityList.add(rejectedBooking2);
+        when(repositoryMock.findAll()).thenReturn(bookingEntityList);
+
+        // Expected booking list
+        List<Booking> expectedResponse = new ArrayList<>();
+        expectedResponse.add(mapper.map(acceptedBooking1, Booking.class));
+        expectedResponse.add(mapper.map(acceptedBooking2, Booking.class));
+        expectedResponse.add(mapper.map(cancelledBooking1, Booking.class));
+        expectedResponse.add(mapper.map(cancelledBooking2, Booking.class));
+        expectedResponse.add(mapper.map(rejectedBooking1, Booking.class));
+        expectedResponse.add(mapper.map(rejectedBooking2, Booking.class));
+
+        // Exercise
+        List<Booking> actualResponse = bookingManagementService.getBookingList(query);
+
+        // Verify
+        assertNotNull(actualResponse);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, actualResponse));
+        verify(repositoryMock, times(1)).findAll();
+        // Teardown -- no teardown stage
+    }
+
+    @Test
+    public void testGetBookingListCancelled(){
+        // Setup
+        BookingStatusQuery query = BookingStatusQuery.CANCELLED;
+
+        // Creating dates for existing bookings in system
+        LocalDate dateTwoDaysFromNow = LocalDate.now().plusDays(2);
+        LocalDate dateThreeDaysFromNow = LocalDate.now().plusDays(3);
+        LocalDate dateFourDaysFromNow = LocalDate.now().plusDays(4);
+        LocalDateTime date1 = LocalDateTime.of(dateTwoDaysFromNow, LocalTime.of(14, 0));
+        LocalDateTime date2 = LocalDateTime.of(dateThreeDaysFromNow, LocalTime.of(10, 0));
+        LocalDateTime date3 = LocalDateTime.of(dateFourDaysFromNow, LocalTime.of(10, 0));
+
+        // Creating booking entity list of bookings in system
+        List<BookingEntity> bookingEntityList = new ArrayList<>();
+
+        BookingEntity acceptedBooking1 = new BookingEntity("1", "ABC 123",
+                "383702L", date1, 19, BookingStatus.ACCEPTED, 120);
+        BookingEntity acceptedBooking2 = new BookingEntity("2", "ABC 193",
+                "383332L", date2, 2, BookingStatus.ACCEPTED, 120);
+        BookingEntity cancelledBooking1 = new BookingEntity("3", "ADF 123",
+                "383202L", date3, 4, BookingStatus.CANCELLED, 120);
+        BookingEntity cancelledBooking2 = new BookingEntity("4", "ABC 109",
+                "383332L", date2, 2, BookingStatus.CANCELLED, 120);
+        BookingEntity rejectedBooking1 = new BookingEntity("5", "ADF 123",
+                "383203M", date3, 28, BookingStatus.REJECTED, 120);
+        BookingEntity rejectedBooking2 = new BookingEntity("9", "ADF 123",
+                "383203M", date1, 28, BookingStatus.REJECTED, 120);
+
+        bookingEntityList.add(acceptedBooking1);
+        bookingEntityList.add(acceptedBooking2);
+        bookingEntityList.add(cancelledBooking1);
+        bookingEntityList.add(cancelledBooking2);
+        bookingEntityList.add(rejectedBooking1);
+        bookingEntityList.add(rejectedBooking2);
+        when(repositoryMock.findAll()).thenReturn(bookingEntityList);
+
+        // Expected booking list
+        List<Booking> expectedResponse = new ArrayList<>();
+        expectedResponse.add(mapper.map(cancelledBooking1, Booking.class));
+        expectedResponse.add(mapper.map(cancelledBooking2, Booking.class));
+
+        // Exercise
+        List<Booking> actualResponse = bookingManagementService.getBookingList(query);
+
+        // Verify
+        assertNotNull(actualResponse);
+        assertTrue(DeepEquals.deepEquals(expectedResponse, actualResponse));
+        verify(repositoryMock, times(1)).findAll();
+        // Teardown -- no teardown stage
+    }
 }

@@ -571,4 +571,42 @@ public class BookingManagementServiceTests {
         verify(repositoryMock, times(1)).findAll();
         // Teardown -- no teardown stage
     }
+
+    @Test
+    public void testCancelBookingPresent(){
+        // Setup
+        String bookingID = "3988828b-52d0-4be8-9e19-24f963cc9f11";
+        when(repositoryMock.existsById(bookingID)).thenReturn(true);
+
+        // Exercise
+        bookingManagementService.cancelBooking(bookingID);
+
+        // Verify
+        verify(repositoryMock, times(1)).existsById(bookingID);
+        verify(repositoryMock, times(1)).deleteById(bookingID);
+
+        // No teardown
+    }
+
+    @Test
+    public void testCancelBookingNotPresent(){
+        // Setup
+        String bookingID = "3988828b-52d0-4be8-9e19-24f963cc9f11";
+        when(repositoryMock.existsById(bookingID)).thenReturn(false);
+        boolean exceptionCaught =false;
+
+        // Exercise
+        try{
+            bookingManagementService.cancelBooking(bookingID);
+        }catch(BookingNotFoundException e){
+            exceptionCaught=true;
+        }
+
+        // Verify
+        assertTrue(exceptionCaught);
+        verify(repositoryMock, times(1)).existsById(bookingID);
+        verify(repositoryMock, times(0)).deleteById(bookingID);
+
+        // No teardown
+    }
 }

@@ -73,7 +73,7 @@ public class BookingManagementServiceTests {
         // Verify
 
         assertNotNull(response);
-        assertEquals(response.getStatus(), BookingStatus.ACCEPTED);
+        assertEquals(BookingStatus.ACCEPTED, response.getStatus());
         MyAssertions.assertValidUUID(response.getBookingID());
         verify(repositoryMock, times(1)).findAll();
         verify(repositoryMock, times(1)).save(any(BookingEntity.class));
@@ -230,4 +230,5 @@ public class BookingManagementServiceTests {
 
         // No teardown
     }
+
 }

@@ -9,6 +9,10 @@ public class SubmitCustomerResponse {
         this.Id = Id;
     }
 
+    public SubmitCustomerResponse(){
+
+    }
+
     public String getId(){
         return Id;
     }

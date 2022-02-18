@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,5 +40,35 @@ public class AddCustomerService {
 
         Customer customer = mapper.map(customerEntity.get(), Customer.class);
         return customer;
+    }
+
+    public List<Customer> getCustomerByName(String name){
+
+        List<CustomerEntity> customerEntityList = repository.findAll();
+
+        Iterator<CustomerEntity> iterator = customerEntityList.listIterator();
+        System.out.println(iterator);
+        List<Customer> foundCustomers = new ArrayList<>();
+
+        while(iterator.hasNext()){
+            CustomerEntity customerEntity = iterator.next();
+            System.out.println(customerEntity);
+            System.out.println(customerEntity.getCustomerName());
+            System.out.println(name);
+            if(customerEntity.getCustomerName().equals(name)){
+                foundCustomers.add(mapper.map(customerEntity, Customer.class));
+            }
+        }
+        return foundCustomers;
+    }
+
+    public boolean deleteCustomer(String customerId){
+        if(!repository.existsById(customerId)){
+            return false;
+        }
+        else {
+            repository.deleteById(customerId);
+        }
+        return true;
     }
 }

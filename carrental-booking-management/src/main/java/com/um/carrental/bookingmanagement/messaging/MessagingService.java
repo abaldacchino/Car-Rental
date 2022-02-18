@@ -40,7 +40,7 @@ public class MessagingService implements MessagingServiceInterface{
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("customer url here")
+                .baseUrl("http://localhost:9002/carrental/1.0/customer-management-service/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(httpClient.build())
                 .build();

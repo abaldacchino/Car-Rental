@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BookingScheduler {
-    private static volatile BookingScheduler instance = null;
+    private static BookingScheduler instance = null;
 
     private BookingScheduler() {
     }

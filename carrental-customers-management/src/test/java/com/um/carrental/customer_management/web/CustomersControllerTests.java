@@ -33,19 +33,26 @@ public class CustomersControllerTests{
         @Test
         public void testSubmitValidCustomer(){
 
-                // Arrange
+                // Arrange - Setup
 
                 String customerId = UUID.randomUUID().toString();
                 AddCustomerRequest request = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
                 when(customerServiceMock.addCustomer(any(CustomerSubmission.class))).thenReturn(customerId);
 
-                // Act
+                // Act - Exercise
                 SubmitCustomerResponse response = customerController.submit(customerId, request);
 
-                // Assert
+                // Assert - Verify
                 assertNotNull(response, "Response is null");
                 String receivedId = response.getId();
                 assertNotNull(receivedId, "Customer Id is null");
                 assertEquals(customerId, receivedId);
+
+                // No teardown needed
+        }
+
+        @Test
+        public void testGetCustomerDetailsById(){
+
         }
 }

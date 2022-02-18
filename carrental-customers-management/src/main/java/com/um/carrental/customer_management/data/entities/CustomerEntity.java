@@ -19,8 +19,7 @@ public class CustomerEntity {
 
     @Id
     private String customerId;
-
-
+    
     public CustomerEntity(List<CustomerDetails> customerDetails, String customerId){
         this.customerDetails = customerDetails;
         this.customerId = customerId;
@@ -38,6 +37,11 @@ public class CustomerEntity {
 
     public String getCustomerId(){
         return customerId;
+    }
+
+    public String getCustomerName(){
+        String name  = customerDetails.get(1).getName();
+        return name;
     }
 
 }

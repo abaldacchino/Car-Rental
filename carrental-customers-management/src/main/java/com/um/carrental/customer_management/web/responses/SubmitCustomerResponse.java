@@ -1,4 +1,4 @@
-package com.um.carrental.customer_management.responses;
+package com.um.carrental.customer_management.web.responses;
 
 public class SubmitCustomerResponse {
     private String Id; // ID of the customer

@@ -93,7 +93,13 @@ public class BookingManagementService {
     }
 
     public void cancelBooking(String bookingID){
-
+        if(repository.existsById(bookingID)){
+            BookingEntity bookingEntity = repository.getById(bookingID);
+            bookingEntity.setStatus(BookingStatus.REJECTED);
+            repository.save(bookingEntity);
+        }else{
+            throw new BookingNotFoundException();
+        }
     }
 
     // Setter for messaging service -- can be used to modify behaviour of calling

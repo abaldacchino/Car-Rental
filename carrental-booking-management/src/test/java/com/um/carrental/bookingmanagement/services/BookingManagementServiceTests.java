@@ -23,6 +23,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -578,12 +579,20 @@ public class BookingManagementServiceTests {
         String bookingID = "3988828b-52d0-4be8-9e19-24f963cc9f11";
         when(repositoryMock.existsById(bookingID)).thenReturn(true);
 
+
+        LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(2),
+                LocalTime.of(14, 0));
+        BookingEntity booking = new BookingEntity(bookingID, "ABC 123",
+                "383702L", date, 19, BookingStatus.ACCEPTED, 120);
+        when(repositoryMock.getById(bookingID)).thenReturn(booking);
+
         // Exercise
         bookingManagementService.cancelBooking(bookingID);
 
         // Verify
         verify(repositoryMock, times(1)).existsById(bookingID);
-        verify(repositoryMock, times(1)).deleteById(bookingID);
+        verify(repositoryMock, times(1)).getById(bookingID);
+        verify(repositoryMock, times(1)).save(any(BookingEntity.class));
 
         // No teardown
     }
@@ -605,7 +614,8 @@ public class BookingManagementServiceTests {
         // Verify
         assertTrue(exceptionCaught);
         verify(repositoryMock, times(1)).existsById(bookingID);
-        verify(repositoryMock, times(0)).deleteById(bookingID);
+        verify(repositoryMock, times(0)).getById(bookingID);
+        verify(repositoryMock, times(0)).save(any(BookingEntity.class));
 
         // No teardown
     }

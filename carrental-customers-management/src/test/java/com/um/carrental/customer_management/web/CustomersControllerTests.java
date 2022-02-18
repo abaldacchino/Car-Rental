@@ -2,6 +2,7 @@ package com.um.carrental.customer_management.web;
 
 
 import com.cedarsoftware.util.DeepEquals;
+import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.CustomerDetails;
@@ -33,6 +34,9 @@ public class CustomersControllerTests{
 
         @MockBean
         AddCustomerService customerServiceMock;
+
+        @MockBean
+        AddCustomerRepository repository;
 
         @Test
         public void testSubmitValidCustomer(){
@@ -106,8 +110,16 @@ public class CustomersControllerTests{
                 // No Teardown
         }
 
-//        @Test
-//        public void testGetNonExistentCustomer(){
-//
-//        }
+        @Test
+        public void testGetNonExistentCustomer(){
+                // Setup
+                String customerId = "000123M";
+                when(repository.existsById(customerId)).thenReturn(false);
+                // Exercise
+                Customer response = customerServiceMock.getCustomer(customerId);
+                // Verify
+                assertNull(response);
+                verify(repository, times(0)).getById(customerId);
+        }
+
 }

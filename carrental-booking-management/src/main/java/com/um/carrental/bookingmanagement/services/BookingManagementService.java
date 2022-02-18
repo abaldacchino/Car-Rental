@@ -3,6 +3,7 @@ package com.um.carrental.bookingmanagement.services;
 import com.um.carrental.bookingmanagement.data.entities.BookingEntity;
 import com.um.carrental.bookingmanagement.data.repositories.BookingRepository;
 import com.um.carrental.bookingmanagement.enums.BookingStatus;
+import com.um.carrental.bookingmanagement.enums.BookingStatusQuery;
 import com.um.carrental.bookingmanagement.exceptions.BookingNotFoundException;
 import com.um.carrental.bookingmanagement.exceptions.InvalidBookingRequestException;
 import com.um.carrental.bookingmanagement.messaging.MessagingServiceInterface;
@@ -13,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -32,7 +34,6 @@ public class BookingManagementService {
             throw new InvalidBookingRequestException();
 
         BookingEntity bookingEntity = mapper.map(request, BookingEntity.class);
-        bookingEntity.setStatus(BookingStatus.PENDING);
 
         double price = messaging.getVehiclePrice(request.getNumberPlate());
         // Rejected Request (customer/vehicle do not exist, or there is booking overlap)
@@ -59,6 +60,10 @@ public class BookingManagementService {
             return booking;
         }
         throw new BookingNotFoundException();
+    }
+
+    public List<Booking> getBookingList(BookingStatusQuery bookingStatus){
+        return null;
     }
 
     // Setter for messaging service -- can be used to modify behaviour of calling

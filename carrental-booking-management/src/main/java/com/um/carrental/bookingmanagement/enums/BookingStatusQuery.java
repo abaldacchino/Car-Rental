@@ -1,7 +1,8 @@
 package com.um.carrental.bookingmanagement.enums;
 
-public enum BookingStatus {
+public enum BookingStatusQuery {
     ACCEPTED,
     REJECTED,
-    CANCELLED
+    CANCELLED,
+    ANY
 }

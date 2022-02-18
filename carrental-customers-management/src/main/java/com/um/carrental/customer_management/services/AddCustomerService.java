@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.modelmapper.ModelMapper;
 
+import java.util.Optional;
+
 @Service
 public class AddCustomerService {
     @Autowired
@@ -27,5 +29,13 @@ public class AddCustomerService {
         Customer savedCustomer = mapper.map(savedEntity, Customer.class);
 
         return savedCustomer.getCustomerId();
+    }
+
+    public Customer getCustomer(String customerId){
+
+        Optional<CustomerEntity> customerEntity = repository.findById(customerId);
+
+        Customer customer = mapper.map(customerEntity.get(), Customer.class);
+        return customer;
     }
 }

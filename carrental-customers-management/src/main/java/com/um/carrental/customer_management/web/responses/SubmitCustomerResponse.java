@@ -1,7 +1,5 @@
-package com.um.carrental.customer_management.web.responses;
-import com.um.carrental.customer_management.web.requests.CustomerDetails;
+package com.um.carrental.customer_management.responses;
 
-import java.util.List;
 public class SubmitCustomerResponse {
     private String Id; // ID of the customer
 

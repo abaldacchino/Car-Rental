@@ -1,12 +1,12 @@
-package com.um.carrental.customer_management.web.controllers;
+package com.um.carrental.customer_management.controllers;
 
+import com.um.carrental.customer_management.requests.AddCustomerRequest;
+import com.um.carrental.customer_management.responses.GetCustomerResponse;
+import com.um.carrental.customer_management.responses.SubmitCustomerResponse;
 import com.um.carrental.customer_management.services.AddCustomerService;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.services.models.CustomerDetails;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
-import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
-import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
-import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,7 +33,7 @@ public class CustomerController {
 
     @PostMapping(value = "customers", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public SubmitCustomerResponse submit(@RequestHeader(name="X-Customer-Id") String customerId,  @RequestBody AddCustomerRequest request){
+    public SubmitCustomerResponse submit(@RequestHeader(name="X-Customer-Id") String customerId, @RequestBody AddCustomerRequest request){
         // Call service layer
         // submitOrder(xxx) --> info that contains ID
 

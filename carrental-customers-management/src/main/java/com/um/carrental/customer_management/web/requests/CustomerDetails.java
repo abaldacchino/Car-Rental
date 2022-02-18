@@ -1,4 +1,4 @@
-package com.um.carrental.customer_management.web.requests;
+package com.um.carrental.customer_management.requests;
 
 public class CustomerDetails {
 

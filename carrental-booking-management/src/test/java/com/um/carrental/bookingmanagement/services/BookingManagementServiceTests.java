@@ -497,16 +497,16 @@ public class BookingManagementServiceTests {
         BookingEntity rejectedBooking2 = new BookingEntity("9", "ADF 123",
                 "383203M", date1, 28, BookingStatus.REJECTED, 120);
 
+        bookingEntityList.add(acceptedBooking1);
+        bookingEntityList.add(acceptedBooking2);
+        bookingEntityList.add(cancelledBooking1);
+        bookingEntityList.add(cancelledBooking2);
         bookingEntityList.add(rejectedBooking1);
         bookingEntityList.add(rejectedBooking2);
         when(repositoryMock.findAll()).thenReturn(bookingEntityList);
 
         // Expected booking list
         List<Booking> expectedResponse = new ArrayList<>();
-        expectedResponse.add(mapper.map(acceptedBooking1, Booking.class));
-        expectedResponse.add(mapper.map(acceptedBooking2, Booking.class));
-        expectedResponse.add(mapper.map(cancelledBooking1, Booking.class));
-        expectedResponse.add(mapper.map(cancelledBooking2, Booking.class));
         expectedResponse.add(mapper.map(rejectedBooking1, Booking.class));
         expectedResponse.add(mapper.map(rejectedBooking2, Booking.class));
 

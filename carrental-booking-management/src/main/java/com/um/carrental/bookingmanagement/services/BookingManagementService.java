@@ -71,7 +71,23 @@ public class BookingManagementService {
 
         while(bookingEntityIterator.hasNext()){
             BookingEntity bookingEntity = bookingEntityIterator.next();
-            bookingList.add(mapper.map(bookingEntity, Booking.class));
+            switch(bookingStatus){
+                case ANY:
+                    bookingList.add(mapper.map(bookingEntity, Booking.class));
+                    break;
+                case ACCEPTED:
+                    if(bookingEntity.getStatus()==BookingStatus.ACCEPTED)
+                        bookingList.add(mapper.map(bookingEntity, Booking.class));
+                    break;
+                case REJECTED:
+                    if(bookingEntity.getStatus()==BookingStatus.REJECTED)
+                        bookingList.add(mapper.map(bookingEntity, Booking.class));
+                    break;
+                case CANCELLED:
+                    if(bookingEntity.getStatus()==BookingStatus.CANCELLED)
+                        bookingList.add(mapper.map(bookingEntity, Booking.class));
+                    break;
+            }
         }
         return bookingList;
     }

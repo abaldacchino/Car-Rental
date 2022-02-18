@@ -1,5 +1,9 @@
 package com.um.carrental.customer_management.services;
 
+import com.cedarsoftware.util.DeepEquals;
+import com.um.carrental.customer_management.data.entities.CustomerEntity;
+import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
+import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.web.controllers.CustomerController;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
@@ -14,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -33,6 +38,9 @@ public class CustomerServiceTests {
 
     @MockBean
     AddCustomerService customerServiceMock;
+
+    @MockBean
+    AddCustomerRepository repository;
 
     @Test
     public void testAddCustomer(){
@@ -63,9 +71,26 @@ public class CustomerServiceTests {
         verify(customerServiceMock, times(1)).deleteCustomer(customerId);
 
     }
-//    @Test
-//    public void testGetValidCustomer(){
-//
-//    }
+    @Test
+    public void testGetValidCustomer(){
+
+        // Setup
+        List<com.um.carrental.customer_management.data.entities.CustomerDetails> entityCustomerDetails =
+                List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("andrew borg", 73));
+
+        String customerId = UUID.randomUUID().toString();
+        Optional<CustomerEntity> repositoryCustomerEntity = Optional.of(new CustomerEntity(entityCustomerDetails, customerId));
+        List<com.um.carrental.customer_management.services.models.CustomerDetails> customerDetails =
+                List.of(new com.um.carrental.customer_management.services.models.CustomerDetails("andrew borg", 73));
+        Customer expectedCustomer = new Customer(customerDetails, customerId);
+        when(repository.findById(customerId)).thenReturn(repositoryCustomerEntity);
+
+        // Exercise
+        Customer actualCustomer = customerServiceMock.getCustomer(customerId);
+
+        // Verify
+
+        DeepEquals.deepEquals(actualCustomer, expectedCustomer);
+    }
     // public void testDeleteNonExistingCustomer()
 }

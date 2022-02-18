@@ -19,7 +19,7 @@ public class CustomerDetails {
     public String getName(){
         return name;
     }
-    
+
     public void setAge(int age) {
         this.age = age;
     }

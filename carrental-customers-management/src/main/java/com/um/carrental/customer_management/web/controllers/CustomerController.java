@@ -2,14 +2,18 @@ package com.um.carrental.customer_management.web.controllers;
 
 import com.um.carrental.customer_management.services.AddCustomerService;
 import com.um.carrental.customer_management.services.models.Customer;
+import com.um.carrental.customer_management.services.models.CustomerDetails;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
+import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
 
 @RestController
 public class CustomerController {
@@ -41,6 +45,17 @@ public class CustomerController {
         return new SubmitCustomerResponse(customerId);
     }
 
-    // @GetMapping()
-    // @ResponseStatus()
+    @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetCustomerResponse getById(@PathVariable String customerId) {
+
+        Customer customer = addCustomerService.getCustomer(customerId);
+        List<CustomerDetails> customerDetails = customer.getCustomerDetails();
+        GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
+
+        System.out.println(getCustomerResponse.getCustomerDetails());
+
+        return getCustomerResponse;
+    }
+
 }

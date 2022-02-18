@@ -4,6 +4,7 @@ import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.web.controllers.CustomerController;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.CustomerDetails;
+import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
@@ -48,8 +49,23 @@ public class CustomerServiceTests {
 
     @Test
     public void testDeleteCustomer(){
-                
+        // Setup
+        String customerId = UUID.randomUUID().toString();
+        AddCustomerRequest customerRequest = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
+        customerController.submit(customerId, customerRequest);
+        boolean expectedFound = true;
+        when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expectedFound);
+        // Exercise
+        DeleteCustomerResponse actualResponse = customerController.deleteCustomer(customerId);
+        // Verify
+        assertNotNull(actualResponse, "Response is null");
+        assertEquals(expectedFound, actualResponse.getCustomerBoolean());
+        verify(customerServiceMock, times(1)).deleteCustomer(customerId);
+
     }
-    // public void testGetValidCustomer()
+//    @Test
+//    public void testGetValidCustomer(){
+//
+//    }
     // public void testDeleteNonExistingCustomer()
 }

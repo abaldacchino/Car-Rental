@@ -5,6 +5,7 @@ import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.CustomerDetails;
+import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import com.um.carrental.customer_management.services.AddCustomerService;
@@ -69,4 +70,44 @@ public class CustomersControllerTests{
                 verify(customerServiceMock, times(1)).getCustomer(customerId);
                 // No Teardown needed
         }
+        @Test
+        public void testDeletionOfValidCustomer(){
+             // Setup
+                String customerId = UUID.randomUUID().toString();
+                AddCustomerRequest request = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
+                customerController.submit(customerId, request);
+                boolean expectedFound = true;
+                when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expectedFound);
+                // Exercise
+                DeleteCustomerResponse actualResponse = customerController.deleteCustomer(customerId);
+             // Verify
+                assertNotNull(actualResponse, "Response is null");
+                assertEquals(expectedFound, actualResponse.getCustomerBoolean());
+
+                verify(customerServiceMock, times(1)).deleteCustomer(customerId);
+             // No Teardown
+        }
+
+        @Test
+        public void testDeletionOfNonExistentCustomer(){
+                // Setup
+                String customerId = UUID.randomUUID().toString();
+                AddCustomerRequest request = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
+                customerController.submit(customerId, request);
+                boolean expectedFound = false;
+                when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expectedFound);
+                // Exercise
+                DeleteCustomerResponse actualResponse = customerController.deleteCustomer(customerId);
+                // Verify
+                assertNotNull(actualResponse, "Response is null");
+                assertEquals(expectedFound, actualResponse.getCustomerBoolean());
+
+                verify(customerServiceMock, times(1)).deleteCustomer(customerId);
+                // No Teardown
+        }
+
+//        @Test
+//        public void testGetNonExistentCustomer(){
+//
+//        }
 }

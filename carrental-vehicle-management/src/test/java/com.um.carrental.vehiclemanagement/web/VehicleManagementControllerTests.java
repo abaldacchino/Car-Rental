@@ -450,7 +450,7 @@ public class VehicleManagementControllerTests {
                 updateVehicle(request)).thenReturn(true);
 
         // Exercise
-        GetVehicleResponse response = vehicleManagementController.updateVehicle(request);
+        vehicleManagementController.updateVehicle(request);
 
 
         // Verify
@@ -471,8 +471,7 @@ public class VehicleManagementControllerTests {
 
         // Exercise
         try{
-            GetVehicleResponse response = vehicleManagementController
-                .updateVehicle(request);
+            vehicleManagementController.updateVehicle(request);
         }catch(VehicleNotFoundException notFoundException){
             exceptionThrown=true;
         }

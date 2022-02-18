@@ -45,12 +45,23 @@ public class BookingManagementController {
 
     // Get a list of bookings
     // Method --> POST
-    // Request --> BookingStatusQuery
+    // Request --> BookingStatusQuery bookingStatus
     // Response --> 200 (OK), GetBookingListResponse
     @GetMapping(value = "booking/{bookingStatus}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetBookingListResponse getBookingList(
             @RequestParam(value="bookingStatus")BookingStatusQuery bookingStatus){
         return new GetBookingListResponse(bookingManagementService.getBookingList(bookingStatus));
+    }
+
+    // Cancel a booking
+    // Method --> DELETE
+    // Request --> String bookingID
+    // Response --> 204 (No content)
+    @GetMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public GetBookingListResponse cancelBooking(
+            @RequestParam(value="bookingID")String bookingID){
+        return null;
     }
 }

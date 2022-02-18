@@ -118,10 +118,9 @@ public class VehicleManagementController {
     // Response --> 204 (No Content)
     @PutMapping(value = "vehicles", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public GetVehicleResponse updateVehicle(@RequestBody UpdateVehicleRequest request){
+    public void updateVehicle(@RequestBody UpdateVehicleRequest request){
         boolean found = vehicleManagementService.updateVehicle(request);
         if(!found) throw new VehicleNotFoundException();
-        return null;
     }
 
 }

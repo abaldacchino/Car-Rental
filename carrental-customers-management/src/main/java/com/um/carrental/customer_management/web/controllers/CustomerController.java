@@ -19,10 +19,10 @@ import java.util.List;
 public class CustomerController {
 
     // exposing one end point
-    // HTTP Method is POST
+    // HTTP Method -> POST
     // used to create a customer - customer submission
-    // expect to receive a request from AddCustomerRequest, X-Id (non-standard header)
-    // Give back a response -> SubmitCustomerResponse, 201
+    // Expect -> AddCustomerRequest
+    // Response -> SubmitCustomerResponse, 201
 
     // new instance of AddCustomerService
     @Autowired
@@ -45,6 +45,10 @@ public class CustomerController {
         return new SubmitCustomerResponse(customerId);
     }
 
+    // HTTP -> GET
+    // Get customer details by Id
+    // Expect -> getCustomerResponse
+    // Response -> OK, 200
     @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetCustomerResponse getById(@PathVariable String customerId) {

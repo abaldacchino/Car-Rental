@@ -1,5 +1,6 @@
 package com.um.carrental.bookingmanagement.services;
 
+import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.bookingmanagement.data.entities.BookingEntity;
 import com.um.carrental.bookingmanagement.data.repositories.BookingRepository;
 import com.um.carrental.bookingmanagement.enums.BookingStatus;
@@ -8,6 +9,7 @@ import com.um.carrental.bookingmanagement.helpers.MyAssertions;
 import com.um.carrental.bookingmanagement.web.requests.AddBookingRequest;
 import com.um.carrental.bookingmanagement.web.responses.AddBookingResponse;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,12 +30,19 @@ public class BookingManagementServiceTests {
     @Autowired
     BookingManagementService bookingManagementService;
 
+    @Autowired
+    ModelMapper mapper;
+
     @MockBean
     BookingRepository repositoryMock;
 
     @Test
     public void testAddValidBooking(){
         // Setup
+        // Modifying BookingManagementService so that customerExistsById and
+        // vehicleExistsByNumberPlate return true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, true));
 
         // Creating dates for existing bookings in system
         LocalDate dateTwoDaysFromNow = LocalDate.now().plusDays(2);
@@ -84,6 +93,10 @@ public class BookingManagementServiceTests {
     @Test
     public void testAddOverlapBooking(){
         // Setup
+        // Modifying BookingManagementService so that customerExistsById and
+        // vehicleExistsByNumberPlate return true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, true));
 
         // Creating dates for existing bookings in system
         LocalDate dateTwoDaysFromNow = LocalDate.now().plusDays(2);
@@ -134,6 +147,11 @@ public class BookingManagementServiceTests {
     @Test
     public void testAddPastTimeBooking(){
         // Setup
+        // Modifying BookingManagementService so that customerExistsById and
+        // vehicleExistsByNumberPlate return true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, true));
+
         LocalDateTime date = LocalDateTime.of(LocalDate.now().minusDays(2),
                 LocalTime.of(13, 0));
         AddBookingRequest request =
@@ -159,6 +177,10 @@ public class BookingManagementServiceTests {
     @Test
     public void testAddOutOfHoursStartTimeBooking(){
         // Setup
+        // Modifying BookingManagementService so that customerExistsById and
+        // vehicleExistsByNumberPlate return true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, true));
         LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(2),
                 LocalTime.of(6, 0));
         AddBookingRequest request =
@@ -184,6 +206,10 @@ public class BookingManagementServiceTests {
     @Test
     public void testAddOutOfHoursEndTimeBooking(){
         // Setup
+        // Modifying BookingManagementService so that customerExistsById and
+        // vehicleExistsByNumberPlate return true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, true));
         LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(2),
                 LocalTime.of(10, 0));
         AddBookingRequest request =
@@ -209,6 +235,10 @@ public class BookingManagementServiceTests {
     @Test
     public void testAddInvalidHoursBooking(){
         // Setup
+        // Modifying BookingManagementService so that customerExistsById and
+        // vehicleExistsByNumberPlate return true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, true));
         LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(2),
                 LocalTime.of(10, 0));
         AddBookingRequest request =
@@ -227,6 +257,79 @@ public class BookingManagementServiceTests {
         assertTrue(exceptionCaught);
         verify(repositoryMock, times(0)).findAll();
         verify(repositoryMock, times(0)).save(any(BookingEntity.class));
+
+        // No teardown
+    }
+
+    @Test
+    public void testAddBookingNonexistentVehicle(){
+        // Setup
+        // Modifying BookingManagementService so that customerExistsById returns true,
+        // vehicleExistsByNumberPlate returns false
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(-1, true));
+
+        LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(15, 0));
+        AddBookingRequest request = new AddBookingRequest("ADF 123", "290102L",
+                date, 2);
+
+        // Exercise
+        AddBookingResponse response = bookingManagementService.addBooking(request);
+
+
+        // Verify
+        assertNotNull(response);
+        assertEquals(BookingStatus.REJECTED, response.getStatus());
+        MyAssertions.assertValidUUID(response.getBookingID());
+        verify(repositoryMock, times(0)).findAll();
+        verify(repositoryMock, times(1)).save(any(BookingEntity.class));
+
+        // No teardown
+    }
+
+    @Test
+    public void testAddBookingNonexistentCustomer(){
+        // Setup
+        // Modifying BookingManagementService so that customerExistsById returns false,
+        // vehicleExistsByNumberPlate returns true
+        bookingManagementService.setMessaging(
+                new MessagingServiceMock(120, false));
+
+        LocalDateTime date = LocalDateTime.of(LocalDate.now().plusDays(1), LocalTime.of(15, 0));
+        AddBookingRequest request = new AddBookingRequest("ADF 123", "290102L",
+                date, 2);
+
+        // Exercise
+        AddBookingResponse response = bookingManagementService.addBooking(request);
+
+
+        // Verify
+        assertNotNull(response);
+        assertEquals(BookingStatus.REJECTED, response.getStatus());
+        MyAssertions.assertValidUUID(response.getBookingID());
+        verify(repositoryMock, times(0)).findAll();
+        verify(repositoryMock, times(1)).save(any(BookingEntity.class));
+
+        // No teardown
+    }
+
+    @Test
+    public void testGetBookingPresent(){
+        // Setup
+        String bookingID = "5bce8560-07a6-4750-8c09-57f30545714b";
+        BookingEntity returnedEntity = new BookingEntity(bookingID, "ABC 123", "383702L",
+                LocalDateTime.now(), 2, BookingStatus.ACCEPTED);
+        Booking expectedResponse = mapper.map(returnedEntity, Booking.class);
+        when(repositoryMock.getById(bookingID)).thenReturn(returnedEntity);
+        when(repositoryMock.existsById(bookingID)).thenReturn(true);
+
+        // Exercise
+        Booking response = bookingManagementService.getBooking(bookingID);
+
+        // Verify
+        assertTrue(DeepEquals.deepEquals(expectedResponse, response));
+        verify(repositoryMock, times(1)).existsById(bookingID);
+        verify(repositoryMock, times(1)).findById(bookingID);
 
         // No teardown
     }

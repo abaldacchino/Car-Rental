@@ -22,16 +22,17 @@ public class MessagingService implements MessagingServiceInterface{
         vehicleService = retrofit.create(VehicleService.class);
     }
 
-    public boolean vehicleExistsByNumberPlate(String numberPlate){
+    @Override
+    public double getVehiclePrice(String numberPlate){
         Call<VehicleAPIResponse> callSync = vehicleService.getVehicle(numberPlate);
-
         try{
             Response<VehicleAPIResponse> response = callSync.execute();
             VehicleAPIResponse apiResponse = response.body();
-            return apiResponse != null;
+            if(apiResponse==null)return -1;
+            else return apiResponse.getPrice();
         }catch(Exception e){
             e.printStackTrace();
-            return false;
+            return -1;
         }
     }
 
@@ -47,6 +48,7 @@ public class MessagingService implements MessagingServiceInterface{
         customerService = retrofit.create(CustomerService.class);
     }
 
+    @Override
     public boolean customerExistsById(String customerId){
         // Add call here
         return true;

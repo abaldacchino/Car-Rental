@@ -24,6 +24,8 @@ public class BookingEntity {
     @Enumerated(EnumType.STRING)
     BookingStatus status;
 
+    double totalPrice;
+
     public BookingEntity() {
     }
 
@@ -34,6 +36,16 @@ public class BookingEntity {
         this.startTime = startTime;
         this.hours = hours;
         this.status = status;
+    }
+
+    public BookingEntity(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status, double totalPrice) {
+        this.bookingID = bookingID;
+        this.numberPlate = numberPlate;
+        this.customerID = customerID;
+        this.startTime = startTime;
+        this.hours = hours;
+        this.status = status;
+        this.totalPrice = totalPrice;
     }
 
     public String getBookingID() {
@@ -82,5 +94,13 @@ public class BookingEntity {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

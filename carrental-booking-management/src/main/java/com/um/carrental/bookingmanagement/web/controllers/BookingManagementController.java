@@ -35,7 +35,7 @@ public class BookingManagementController {
     // Method --> POST
     // Request --> GetBookingRequest
     // Response --> 200 (OK), GetBookingResponse
-    @PostMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "booking/{bookingID}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetBookingResponse getBooking(@RequestParam(value="bookingID") String bookingID){
         return mapper.map(bookingManagementService.getBooking(bookingID), GetBookingResponse.class);

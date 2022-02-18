@@ -17,16 +17,19 @@ public class Booking {
 
     BookingStatus status;
 
+    double totalPrice;
+
     public Booking() {
     }
 
-    public Booking(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status) {
+    public Booking(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status, double totalPrice) {
         this.bookingID = bookingID;
         this.numberPlate = numberPlate;
         this.customerID = customerID;
         this.startTime = startTime;
         this.hours = hours;
         this.status = status;
+        this.totalPrice = totalPrice;
     }
 
     public String getBookingID() {
@@ -75,5 +78,13 @@ public class Booking {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

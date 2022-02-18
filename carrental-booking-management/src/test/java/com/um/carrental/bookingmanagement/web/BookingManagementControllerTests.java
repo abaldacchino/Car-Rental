@@ -78,7 +78,7 @@ public class BookingManagementControllerTests {
 
         GetBookingResponse expectedResponse =
                 new GetBookingResponse(bookingID,"ABC 123",
-                        "383702L", date, 3, BookingStatus.ACCEPTED);
+                        "383702L", date, 3, BookingStatus.ACCEPTED, 500);
         Booking returnedBooking = mapper.map(expectedResponse, Booking.class);
         when(bookingManagementServiceMock.getBooking(bookingID)).thenReturn(returnedBooking);
 

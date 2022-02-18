@@ -6,12 +6,12 @@ public class MessagingServiceProxy implements MessagingServiceInterface{
     boolean vehicleServiceInstantiated = false;
     boolean customerServiceInstantiated = false;
 
-    public boolean vehicleExistsByNumberPlate(String numberPlate){
+    public double getVehiclePrice(String numberPlate){
         if(!vehicleServiceInstantiated){
             messagingService.instantiateVehicleService();
             vehicleServiceInstantiated=true;
         }
-        return messagingService.vehicleExistsByNumberPlate(numberPlate);
+        return messagingService.getVehiclePrice(numberPlate);
     }
 
     public boolean customerExistsById(String customerId){

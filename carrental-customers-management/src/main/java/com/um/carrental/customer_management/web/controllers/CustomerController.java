@@ -1,8 +1,8 @@
-package com.um.carrental.customer_management.controllers;
+package com.um.carrental.customer_management.web.controllers;
 
-import com.um.carrental.customer_management.requests.AddCustomerRequest;
-import com.um.carrental.customer_management.responses.GetCustomerResponse;
-import com.um.carrental.customer_management.responses.SubmitCustomerResponse;
+import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
+import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
+import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import com.um.carrental.customer_management.services.AddCustomerService;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.services.models.CustomerDetails;
@@ -61,5 +61,4 @@ public class CustomerController {
 
         return getCustomerResponse;
     }
-
 }

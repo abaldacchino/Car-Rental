@@ -4,6 +4,7 @@ import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.bookingmanagement.data.entities.BookingEntity;
 import com.um.carrental.bookingmanagement.data.repositories.BookingRepository;
 import com.um.carrental.bookingmanagement.enums.BookingStatus;
+import com.um.carrental.bookingmanagement.exceptions.BookingNotFoundException;
 import com.um.carrental.bookingmanagement.exceptions.InvalidBookingRequestException;
 import com.um.carrental.bookingmanagement.helpers.MyAssertions;
 import com.um.carrental.bookingmanagement.web.requests.AddBookingRequest;
@@ -58,16 +59,16 @@ public class BookingManagementServiceTests {
 
         // Booking 1 from two days from now 14:00 until 9:00 (next day)
         bookingEntityList.add(new BookingEntity("1", "ABC 123",
-                "383702L", date1, 19, BookingStatus.ACCEPTED));
+                "383702L", date1, 19, BookingStatus.ACCEPTED, 120));
         // Booking 2 from three days from now 10:00 until 12:00 (same day)
         bookingEntityList.add(new BookingEntity("2", "ABC 193",
-                "383332L", date2, 2, BookingStatus.ACCEPTED));
+                "383332L", date2, 2, BookingStatus.ACCEPTED, 120));
         // Booking 3 from four days from now 10:00 until 14:00 (same day)
         bookingEntityList.add(new BookingEntity("3", "ADF 123",
-                "383202L", date3, 4, BookingStatus.ACCEPTED));
+                "383202L", date3, 4, BookingStatus.ACCEPTED, 120));
         // Booking 4 was rejected (should be ignored)
         bookingEntityList.add(new BookingEntity("4", "ADF 123",
-                "383203M", date2, 28, BookingStatus.REJECTED));
+                "383203M", date2, 28, BookingStatus.REJECTED, 120));
 
         when(repositoryMock.findAll()).thenReturn(bookingEntityList);
 
@@ -112,16 +113,16 @@ public class BookingManagementServiceTests {
 
         // Booking 1 from two days from now 14:00 until 9:00 (next day)
         bookingEntityList.add(new BookingEntity("1", "ABC 123",
-                "383702L", date1, 19, BookingStatus.ACCEPTED));
+                "383702L", date1, 19, BookingStatus.ACCEPTED, 120));
         // Booking 2 from three days from now 10:00 until 12:00 (same day)
         bookingEntityList.add(new BookingEntity("2", "ABC 193",
-                "383332L", date2, 2, BookingStatus.ACCEPTED));
+                "383332L", date2, 2, BookingStatus.ACCEPTED, 120));
         // Booking 3 from four days from now 10:00 until 14:00 (same day)
         bookingEntityList.add(new BookingEntity("3", "ADF 123",
-                "383202L", date1, 4, BookingStatus.ACCEPTED));
+                "383202L", date1, 4, BookingStatus.ACCEPTED, 120));
         // Booking 4 was rejected (should be ignored)
         bookingEntityList.add(new BookingEntity("4", "ADF 123",
-                "383203M", date2, 28, BookingStatus.REJECTED));
+                "383203M", date2, 28, BookingStatus.REJECTED, 120));
 
         when(repositoryMock.findAll()).thenReturn(bookingEntityList);
 
@@ -318,7 +319,7 @@ public class BookingManagementServiceTests {
         // Setup
         String bookingID = "5bce8560-07a6-4750-8c09-57f30545714b";
         BookingEntity returnedEntity = new BookingEntity(bookingID, "ABC 123", "383702L",
-                LocalDateTime.now(), 2, BookingStatus.ACCEPTED);
+                LocalDateTime.now(), 2, BookingStatus.ACCEPTED, 120);
         Booking expectedResponse = mapper.map(returnedEntity, Booking.class);
         when(repositoryMock.getById(bookingID)).thenReturn(returnedEntity);
         when(repositoryMock.existsById(bookingID)).thenReturn(true);
@@ -329,9 +330,31 @@ public class BookingManagementServiceTests {
         // Verify
         assertTrue(DeepEquals.deepEquals(expectedResponse, response));
         verify(repositoryMock, times(1)).existsById(bookingID);
-        verify(repositoryMock, times(1)).findById(bookingID);
+        verify(repositoryMock, times(1)).getById(bookingID);
 
         // No teardown
     }
+    @Test
+    public void testGetBookingNotPresent(){
+        // Setup
+        String bookingID = "5bce8560-07a6-4750-8c09-57f30545714b";
+        BookingEntity returnedEntity = new BookingEntity(bookingID, "ABC 123", "383702L",
+                LocalDateTime.now(), 2, BookingStatus.ACCEPTED, 120);
+        when(repositoryMock.existsById(bookingID)).thenReturn(false);
+        boolean exceptionCaught = false;
+        // Exercise
 
+        try{
+            Booking response = bookingManagementService.getBooking(bookingID);
+        }catch(BookingNotFoundException e){
+            exceptionCaught=true;
+        }
+
+        // Verify
+        assertTrue(exceptionCaught);
+        verify(repositoryMock, times(1)).existsById(bookingID);
+        verify(repositoryMock, times(0)).getById(bookingID);
+
+        // No teardown
+    }
 }

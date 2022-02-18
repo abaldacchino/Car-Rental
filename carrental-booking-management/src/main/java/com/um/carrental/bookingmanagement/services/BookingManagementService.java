@@ -3,6 +3,7 @@ package com.um.carrental.bookingmanagement.services;
 import com.um.carrental.bookingmanagement.data.entities.BookingEntity;
 import com.um.carrental.bookingmanagement.data.repositories.BookingRepository;
 import com.um.carrental.bookingmanagement.enums.BookingStatus;
+import com.um.carrental.bookingmanagement.exceptions.BookingNotFoundException;
 import com.um.carrental.bookingmanagement.exceptions.InvalidBookingRequestException;
 import com.um.carrental.bookingmanagement.messaging.MessagingServiceInterface;
 import com.um.carrental.bookingmanagement.messaging.MessagingServiceProxy;
@@ -53,7 +54,11 @@ public class BookingManagementService {
     }
 
     public Booking getBooking(String bookingID){
-        return null;
+        if(repository.existsById(bookingID)){
+            Booking booking = mapper.map(repository.getById(bookingID), Booking.class);
+            return booking;
+        }
+        throw new BookingNotFoundException();
     }
 
     // Setter for messaging service -- can be used to modify behaviour of calling

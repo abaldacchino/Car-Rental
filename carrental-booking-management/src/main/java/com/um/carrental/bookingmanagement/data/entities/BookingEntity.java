@@ -29,15 +29,6 @@ public class BookingEntity {
     public BookingEntity() {
     }
 
-    public BookingEntity(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status) {
-        this.bookingID = bookingID;
-        this.numberPlate = numberPlate;
-        this.customerID = customerID;
-        this.startTime = startTime;
-        this.hours = hours;
-        this.status = status;
-    }
-
     public BookingEntity(String bookingID, String numberPlate, String customerID, LocalDateTime startTime, int hours, BookingStatus status, double totalPrice) {
         this.bookingID = bookingID;
         this.numberPlate = numberPlate;

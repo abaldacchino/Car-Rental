@@ -1,7 +1,9 @@
 package com.um.carrental.customer_management.web.controllers;
 
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
+import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
+import com.um.carrental.customer_management.web.responses.GetCustomerResponseByName;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import com.um.carrental.customer_management.services.AddCustomerService;
 import com.um.carrental.customer_management.services.models.Customer;
@@ -13,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
+import javax.print.attribute.standard.Media;
 import java.util.List;
 
 @RestController
@@ -47,18 +50,37 @@ public class CustomerController {
 
     // HTTP -> GET
     // Get customer details by Id
-    // Expect -> getCustomerResponse
+    // Expect -> getCustomerResponse, return customer details
     // Response -> OK, 200
     @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public GetCustomerResponse getById(@PathVariable String customerId) {
-
         Customer customer = addCustomerService.getCustomer(customerId);
         List<CustomerDetails> customerDetails = customer.getCustomerDetails();
         GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
-
         System.out.println(getCustomerResponse.getCustomerDetails());
-
         return getCustomerResponse;
+    }
+
+    // HTTP -> GET
+    // Get customer details by name
+    // Expect -> getCustomerResponseByName, return Id
+    // Response -> OK, 200
+    @GetMapping(value="customers/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetCustomerResponseByName getByName(@RequestParam(value="name") String name){
+        List<Customer> customers = addCustomerService.getCustomerByName(name);
+        System.out.println(customers);
+        return new GetCustomerResponseByName(customers);
+    }
+
+    // HTTP -> DELETE
+    // Delete a customer
+    // Expect ->
+    // Response -> SUCCESS, 200
+    @DeleteMapping(value="customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public DeleteCustomerResponse deleteCustomer(@RequestParam(value="customerId") String customerId){
+        return new DeleteCustomerResponse(addCustomerService.deleteCustomer(customerId));
     }
 }

@@ -1,14 +1,12 @@
-package com.um.carrental.customer_management.requests;
+package com.um.carrental.customer_management.web.requests;
 
 public class CustomerDetails {
 
     private String name;
-//     private String surname;
     private int age;
 
     public CustomerDetails(String name, int age){
         this.name = name;
-       //  this.surname = surname;
         this.age = age;
     }
 
@@ -22,12 +20,6 @@ public class CustomerDetails {
         return name;
     }
 
-//    public void setSurname(String Surname) {
-//        this.surname = surname;
-//    }
-//    public String getSurname(){
-//        return surname;
-//    }
     public void setAge(int age) {
         this.age = age;
     }

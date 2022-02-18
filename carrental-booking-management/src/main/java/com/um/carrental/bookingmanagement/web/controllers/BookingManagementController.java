@@ -51,6 +51,6 @@ public class BookingManagementController {
     @ResponseStatus(HttpStatus.OK)
     public GetBookingListResponse getBookingList(
             @RequestParam(value="bookingStatus")BookingStatusQuery bookingStatus){
-        return null;
+        return new GetBookingListResponse(bookingManagementService.getBookingList(bookingStatus));
     }
 }

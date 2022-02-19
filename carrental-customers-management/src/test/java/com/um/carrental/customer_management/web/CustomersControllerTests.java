@@ -1,6 +1,5 @@
 package com.um.carrental.customer_management.web;
 
-
 import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
 import com.um.carrental.customer_management.services.models.Customer;
@@ -8,6 +7,7 @@ import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.CustomerDetails;
 import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
+import com.um.carrental.customer_management.web.responses.GetCustomerResponseByName;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import com.um.carrental.customer_management.services.AddCustomerService;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
@@ -20,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -78,7 +79,21 @@ public class CustomersControllerTests{
 
         @Test
         public void testGetValidCustomerByName(){
-
+                // Setup
+                String customerId = UUID.randomUUID().toString();
+                String customerName = "andrew borg";
+                List<com.um.carrental.customer_management.services.models.CustomerDetails> customerDetails = List.of(new com.um.carrental.customer_management.services.models.CustomerDetails("andrew borg", 73));
+                Customer customer = new Customer(customerDetails, customerId);
+                List<Customer> customers = new ArrayList<>(); // List.of(new Customer(customerDetails, customerId));
+                customers.add(customer);
+                GetCustomerResponseByName expectedCustomerResponse = new GetCustomerResponseByName(customers);
+                when(customerServiceMock.getCustomerByName(customerName)).thenReturn(customers);
+                // Exercise
+                GetCustomerResponseByName actualCustomerResponse = customerController.getByName(customerName);
+                // Verify
+                assertNotNull(actualCustomerResponse);
+                assertTrue(DeepEquals.deepEquals(actualCustomerResponse, expectedCustomerResponse));
+                // No Teardown needed
         }
 
         @Test

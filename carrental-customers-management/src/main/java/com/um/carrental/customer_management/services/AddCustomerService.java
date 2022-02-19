@@ -36,10 +36,14 @@ public class AddCustomerService {
 
     public Customer getCustomer(String customerId){
 
-        Optional<CustomerEntity> customerEntity = repository.findById(customerId);
+        if(repository.existsById(customerId))
+        {
+            Optional<CustomerEntity> customerEntity = repository.findById(customerId);
 
-        Customer customer = mapper.map(customerEntity.get(), Customer.class);
-        return customer;
+            Customer customer = mapper.map(customerEntity.get(), Customer.class);
+            return customer;
+        }
+        return null;
     }
 
     public List<Customer> getCustomerByName(String name){

@@ -34,8 +34,8 @@ public class CustomerEntity {
         return customerId;
     }
 
-    public String getCustomerName(){
-        String name  = customerDetails.get(1).getName();
+    public String getCustomerName(int position){
+        String name  = customerDetails.get(position).getName();
         return name;
     }
 

@@ -4,6 +4,7 @@ import com.um.carrental.customer_management.data.entities.CustomerEntity;
 import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.services.models.Customer;
+import com.um.carrental.customer_management.web.requests.UpdateCustomerRequest;
 import org.hibernate.hql.spi.id.AbstractIdsBulkIdHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,18 @@ public class AddCustomerService {
 
     public String addCustomer(CustomerSubmission customerSubmission){
         Customer customer = mapper.map(customerSubmission, Customer.class);
-
         // call repo layer to save data
         CustomerEntity customerEntity = mapper.map(customer, CustomerEntity.class);
+
         CustomerEntity savedEntity = repository.save(customerEntity);
-
+        if(savedEntity == null){
+            System.out.println("savedEntity is null");
+        }
         Customer savedCustomer = mapper.map(savedEntity, Customer.class);
-
+        if(savedCustomer == null)
+        {
+            System.out.println("saved customer is null");
+        }
         return savedCustomer.getCustomerId();
     }
 
@@ -71,20 +77,12 @@ public class AddCustomerService {
         return true;
     }
 
-//    public void updateCustomer(CustomerSubmission customerSubmission){
-//        Customer customer = mapper.map(customerSubmission, Customer.class);
-//        CustomerEntity customerEntity = mapper.map(customer, CustomerEntity.class);
-//        CustomerEntity savedEntity = repository.save()
-//
-////        Customer customer = mapper.map(customerSubmission, Customer.class);
-////
-////        // call repo layer to save data
-////        CustomerEntity customerEntity = mapper.map(customer, CustomerEntity.class);
-////        CustomerEntity savedEntity = repository.save(customerEntity);
-////
-////        Customer savedCustomer = mapper.map(savedEntity, Customer.class);
-////
-////        return savedCustomer.getCustomerId();
-//
-//    }
+    public boolean updateCustomer(UpdateCustomerRequest request){
+        if(repository.existsById(request.getCustomerId())){
+            repository.save(mapper.map(request, CustomerEntity.class));
+            return true;
+        }
+        return false;
+    }
+
 }

@@ -45,15 +45,14 @@ public class AddCustomerService {
     public List<Customer> getCustomerByName(String name){
 
         List<CustomerEntity> customerEntityList = repository.findAll();
+
         Iterator<CustomerEntity> iterator = customerEntityList.listIterator();
         List<Customer> foundCustomers = new ArrayList<>();
-        int i = 0;
         while(iterator.hasNext()){
             CustomerEntity customerEntity = iterator.next();
-            if(customerEntity.getCustomerName(i).equals(name)){
+            if(customerEntity.getCustomerName(0).equals(name)){
                 foundCustomers.add(mapper.map(customerEntity, Customer.class));
             }
-            i++;
         }
         return foundCustomers;
     }

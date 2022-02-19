@@ -15,6 +15,7 @@ import com.um.carrental.customer_management.web.controllers.CustomerController;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
@@ -74,6 +75,12 @@ public class CustomersControllerTests{
                 verify(customerServiceMock, times(1)).getCustomer(customerId);
                 // No Teardown needed
         }
+
+        @Test
+        public void testGetValidCustomerByName(){
+
+        }
+
         @Test
         public void testDeletionOfValidCustomer(){
              // Setup
@@ -121,5 +128,6 @@ public class CustomersControllerTests{
                 assertNull(response);
                 verify(repository, times(0)).getById(customerId);
         }
+
 
 }

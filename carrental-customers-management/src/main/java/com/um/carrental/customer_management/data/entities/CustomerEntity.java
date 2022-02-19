@@ -38,5 +38,13 @@ public class CustomerEntity {
         String name  = customerDetails.get(position).getName();
         return name;
     }
+//    public void printCustomerDetails(){
+//        for(int i = 0; i < customerDetails.size(); i++){
+//            System.out.println("Inside CustomerEntity");
+//            System.out.println("Iter " + i);
+//            System.out.println(customerDetails.get(i).getName());
+//            System.out.println(customerDetails.get(i).getAge());
+//        }
+//    }
 
 }

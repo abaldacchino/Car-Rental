@@ -94,14 +94,11 @@ public class CustomerController {
     // Update customer details
     // Expect -> valid customerId
     // Response -> SUCCESS, 200
-//    @PutMapping(value="customers/{customerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    public SubmitCustomerResponse updateCustomerId(@RequestParam(value="customerId") String customerId, @RequestBody UpdateCustomerRequest request){
-//
-//        CustomerSubmission customerSubmission = mapper.map(request, CustomerSubmission.class);
-//        customerSubmission.setCustomerId(customerId);
-//        // Customer customer = addCustomerService.addCustomer(customerSubmission);
-//        customerId = addCustomerService.addCustomer(customerSubmission); // customer.getCustomerId();
-//
-//        return new SubmitCustomerResponse(customerId);
-//    }
+    @PutMapping(value="Customers/{customerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public UpdateCustomerResponse updateCustomerId(@RequestParam(value="customerId") String customerId, @RequestBody UpdateCustomerRequest request){
+        CustomerSubmission customerSubmission = mapper.map(request, CustomerSubmission.class);
+        customerSubmission.setCustomerId(customerId);
+        customerId = addCustomerService.addCustomer(customerSubmission);
+        return new UpdateCustomerResponse(customerId, customerSubmission.getCustomerDetails());
+    }
 }

@@ -88,7 +88,7 @@ public class CustomerServiceTests {
         boolean actualFound = addCustomerService.deleteCustomer(customerId);
         // Verify
         assertEquals(expectedFound, actualFound);
-        verify(repository, times(0)).existsById(any(String.class));
+        verify(repository, times(1)).existsById(any(String.class));
         verify(repository, times(0)).delete(any(CustomerEntity.class));
     }
 

@@ -50,7 +50,14 @@ public class MessagingService implements MessagingServiceInterface{
 
     @Override
     public boolean customerExistsById(String customerId){
-        // Add call here
-        return true;
+        Call<CustomerAPIResponse> callSync = customerService.getCustomer(customerId);
+        try{
+            Response<CustomerAPIResponse> response = callSync.execute();
+            CustomerAPIResponse apiResponse = response.body();
+            return apiResponse != null;
+        }catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 }

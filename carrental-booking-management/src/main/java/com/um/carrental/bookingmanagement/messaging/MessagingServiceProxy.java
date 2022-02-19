@@ -15,7 +15,11 @@ public class MessagingServiceProxy implements MessagingServiceInterface{
     }
 
     public boolean customerExistsById(String customerId){
-        return true;
+        if(!customerServiceInstantiated){
+            messagingService.instantiateCustomerService();
+            customerServiceInstantiated=true;
+        }
+        return messagingService.customerExistsById(customerId);
     }
 
 }

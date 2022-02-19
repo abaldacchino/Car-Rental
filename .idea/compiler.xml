@@ -11,5 +11,8 @@
         <module name="carrental-booking-management" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="carrental-customers-management" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

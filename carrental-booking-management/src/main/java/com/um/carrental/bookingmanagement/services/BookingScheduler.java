@@ -23,7 +23,6 @@ public class BookingScheduler {
 
     boolean noBookingOverlap(LocalDateTime startTime, int hours,
                              List<BookingEntity> bookings, String numberPlate){
-
         LocalDateTime endTime = startTime.plusHours(hours);
 
         Iterator<BookingEntity> iterator = bookings.listIterator();
@@ -38,8 +37,8 @@ public class BookingScheduler {
                 // startTime < endTime (by assumption)
                 // so we just need to ensure that endTime < bookingStartTime
                 // or startTime < bookingEndTime
-                if(!endTime.isBefore(bookingStartTime) &&
-                    !startTime.isAfter(bookingEndTime)) {
+                if(endTime.isAfter(bookingStartTime) &&
+                    startTime.isBefore(bookingEndTime)) {
                     return false;
                 }
             }

@@ -71,6 +71,22 @@ public class CustomerServiceTests {
         verify(customerServiceMock, times(1)).deleteCustomer(customerId);
 
     }
+
+    @Test
+    public void testDeleteNonExistingCustomer(){
+        // Setup
+        String customerId = UUID.randomUUID().toString();
+        boolean expectedFound = false;
+        when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expectedFound);
+        // Exercise
+        boolean actualFound = customerServiceMock.deleteCustomer(customerId);
+        // Verify
+        assertEquals(expectedFound, actualFound);
+        verify(repository, times(0)).existsById(any(String.class));
+        verify(repository, times(0)).delete(any(CustomerEntity.class));
+    }
+
+
     @Test
     public void testGetValidCustomer(){
 
@@ -92,5 +108,19 @@ public class CustomerServiceTests {
 
         DeepEquals.deepEquals(actualCustomer, expectedCustomer);
     }
-    // public void testDeleteNonExistingCustomer()
+
+    @Test
+    public void testGetInvalidCustomer(){
+
+    }
+
+    @Test
+    public void testGetValidCustomerByName(){
+
+    }
+
+    @Test
+    public void testGetInvalidCustomerByName(){
+
+    }
 }

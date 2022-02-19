@@ -1,5 +1,6 @@
 package com.um.carrental.customer_management.web.controllers;
 
+import com.um.carrental.customer_management.exceptions.CustomerException;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.UpdateCustomerRequest;
 import com.um.carrental.customer_management.web.responses.*;
@@ -54,6 +55,10 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public GetCustomerResponse getById(@PathVariable String customerId) {
         Customer customer = addCustomerService.getCustomer(customerId);
+        if(customer == null)
+        {
+            throw new CustomerException();
+        }
         List<CustomerDetails> customerDetails = customer.getCustomerDetails();
         GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
         System.out.println(getCustomerResponse.getCustomerDetails());

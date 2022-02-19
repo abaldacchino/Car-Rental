@@ -143,6 +143,14 @@ public class CustomerServiceTests {
 
     @Test
     public void testGetInvalidCustomerByName(){
-
+        // Setup
+        String customerName = "andrew borg";
+        when(repository.existsById(customerName)).thenReturn(false);
+        List<Customer> customers = new ArrayList<>();
+        //Exercise
+        customers = addCustomerService.getCustomerByName(customerName);
+        //Verify
+        assertTrue(customers.isEmpty());
+        verify(repository, times(1)).findAll();
     }
 }

@@ -1,13 +1,12 @@
 package com.um.carrental.customer_management.services;
 
 import com.cedarsoftware.util.DeepEquals;
+import com.um.carrental.customer_management.data.entities.CustomerDetails;
 import com.um.carrental.customer_management.data.entities.CustomerEntity;
 import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
-import com.um.carrental.customer_management.web.controllers.CustomerController;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
-import com.um.carrental.customer_management.web.requests.CustomerDetails;
 import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import org.junit.jupiter.api.Test;
@@ -17,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -121,7 +121,24 @@ public class CustomerServiceTests {
 
     @Test
     public void testGetValidCustomerByName(){
+        // Setup
+        List<CustomerEntity> customerEntityList = new ArrayList<>();
+        customerEntityList.add(new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("andrew borg", 73)), "00123M"));
+        customerEntityList.add(new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("andrew galea", 33)), "00124M"));
+        customerEntityList.add(new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("maria vella", 20)), "00125M"));
+        customerEntityList.add(new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("julia tabone", 54)), "00126M"));
+        customerEntityList.add(new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("john bugeja", 60)), "00127M"));
+        customerEntityList.add(new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("guza bugeja", 40)), "00128M"));
+        when(repository.findAll()).thenReturn(customerEntityList);
 
+        List<Customer> expectedResponse = new ArrayList<>();
+        expectedResponse.add(new Customer(List.of(new com.um.carrental.customer_management.services.models.CustomerDetails("maria vella", 20)), "00125M"));
+        // Exercise
+        List<Customer> response = addCustomerService.getCustomerByName("maria vella");
+
+        // Verify
+        assertTrue(DeepEquals.deepEquals(response, expectedResponse));
+        verify(repository, times(1)).findAll();
     }
 
     @Test

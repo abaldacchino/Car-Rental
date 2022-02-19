@@ -97,6 +97,20 @@ public class CustomersControllerTests{
         }
 
         @Test
+        public void testGetInvalidCustomerByName(){
+                // Setup
+                String customerName = "andrew borg";
+                when(repository.existsById(customerName)).thenReturn(false);
+
+                //Exercise
+                List<Customer> customersResponse = customerServiceMock.getCustomerByName(customerName);
+
+                // Verfiy
+                assertTrue(customersResponse.isEmpty());
+                verify(repository, times(0)).getById(customerName);
+        }
+
+        @Test
         public void testDeletionOfValidCustomer(){
              // Setup
                 String customerId = UUID.randomUUID().toString();

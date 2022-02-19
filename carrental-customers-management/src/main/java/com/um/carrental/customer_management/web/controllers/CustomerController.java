@@ -1,10 +1,8 @@
 package com.um.carrental.customer_management.web.controllers;
 
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
-import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
-import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
-import com.um.carrental.customer_management.web.responses.GetCustomerResponseByName;
-import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
+import com.um.carrental.customer_management.web.requests.UpdateCustomerRequest;
+import com.um.carrental.customer_management.web.responses.*;
 import com.um.carrental.customer_management.services.AddCustomerService;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.services.models.CustomerDetails;
@@ -52,15 +50,15 @@ public class CustomerController {
     // Get customer details by Id
     // Expect -> getCustomerResponse, return customer details
     // Response -> OK, 200
-    @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public GetCustomerResponse getById(@PathVariable String customerId) {
-        Customer customer = addCustomerService.getCustomer(customerId);
-        List<CustomerDetails> customerDetails = customer.getCustomerDetails();
-        GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
-        System.out.println(getCustomerResponse.getCustomerDetails());
-        return getCustomerResponse;
-    }
+//    @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.OK)
+//    public GetCustomerResponse getById(@PathVariable String customerId) {
+//        Customer customer = addCustomerService.getCustomer(customerId);
+//        List<CustomerDetails> customerDetails = customer.getCustomerDetails();
+//        GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
+//        System.out.println(getCustomerResponse.getCustomerDetails());
+//        return getCustomerResponse;
+//    }
 
     // HTTP -> GET
     // Get customer details by name
@@ -76,11 +74,26 @@ public class CustomerController {
 
     // HTTP -> DELETE
     // Delete a customer
-    // Expect ->
+    // Expect -> valid customerId
     // Response -> SUCCESS, 200
     @DeleteMapping(value="customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public DeleteCustomerResponse deleteCustomer(@RequestParam(value="customerId") String customerId){
         return new DeleteCustomerResponse(addCustomerService.deleteCustomer(customerId));
     }
+
+    //HTTP -> PUT
+    // Update customer details
+    // Expect -> valid customerId
+    // Response -> SUCCESS, 200
+//    @PutMapping(value="customers/{customerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public SubmitCustomerResponse updateCustomerId(@RequestParam(value="customerId") String customerId, @RequestBody UpdateCustomerRequest request){
+//
+//        CustomerSubmission customerSubmission = mapper.map(request, CustomerSubmission.class);
+//        customerSubmission.setCustomerId(customerId);
+//        // Customer customer = addCustomerService.addCustomer(customerSubmission);
+//        customerId = addCustomerService.addCustomer(customerSubmission); // customer.getCustomerId();
+//
+//        return new SubmitCustomerResponse(customerId);
+//    }
 }

@@ -2,6 +2,7 @@ package com.um.carrental.customer_management.web;
 
 import com.cedarsoftware.util.DeepEquals;
 import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
+import com.um.carrental.customer_management.exceptions.CustomerException;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.CustomerDetails;
@@ -14,6 +15,7 @@ import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.web.controllers.CustomerController;
 import org.junit.jupiter.api.Test;
 
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -78,6 +80,22 @@ public class CustomersControllerTests{
         }
 
         @Test
+        public void testGetNonExistentCustomer(){
+                // Setup
+                String customerId = "000123M";
+                when(repository.existsById(customerId)).thenReturn(false);
+
+                //Exercise & Verify
+                assertThrows(CustomerException.class, new Executable() {
+                        @Override
+                        public void execute() throws Throwable {
+                                GetCustomerResponse response = customerController.getById(customerId);
+                        }
+                });
+                // Verify
+                verify(repository, times(0)).getById(customerId);
+        }
+        @Test
         public void testGetValidCustomerByName(){
                 // Setup
                 String customerId = UUID.randomUUID().toString();
@@ -101,12 +119,14 @@ public class CustomersControllerTests{
                 // Setup
                 String customerName = "andrew borg";
                 when(repository.existsById(customerName)).thenReturn(false);
-
-                //Exercise
-                List<Customer> customersResponse = customerServiceMock.getCustomerByName(customerName);
-
-                // Verfiy
-                assertTrue(customersResponse.isEmpty());
+                //Exercise & Verify
+                assertThrows(CustomerException.class, new Executable() {
+                        @Override
+                        public void execute() throws Throwable {
+                                GetCustomerResponseByName response = customerController.getByName(customerName);
+                        }
+                });
+                // Verify
                 verify(repository, times(0)).getById(customerName);
         }
 
@@ -145,18 +165,5 @@ public class CustomersControllerTests{
                 verify(customerServiceMock, times(1)).deleteCustomer(customerId);
                 // No Teardown
         }
-
-        @Test
-        public void testGetNonExistentCustomer(){
-                // Setup
-                String customerId = "000123M";
-                when(repository.existsById(customerId)).thenReturn(false);
-                // Exercise
-                Customer response = customerServiceMock.getCustomer(customerId);
-                // Verify
-                assertNull(response);
-                verify(repository, times(0)).getById(customerId);
-        }
-
 
 }

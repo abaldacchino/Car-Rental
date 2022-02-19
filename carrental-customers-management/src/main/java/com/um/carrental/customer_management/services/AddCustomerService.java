@@ -45,19 +45,15 @@ public class AddCustomerService {
     public List<Customer> getCustomerByName(String name){
 
         List<CustomerEntity> customerEntityList = repository.findAll();
-
         Iterator<CustomerEntity> iterator = customerEntityList.listIterator();
-        System.out.println(iterator);
         List<Customer> foundCustomers = new ArrayList<>();
-
+        int i = 0;
         while(iterator.hasNext()){
             CustomerEntity customerEntity = iterator.next();
-            System.out.println(customerEntity);
-            System.out.println(customerEntity.getCustomerName());
-            System.out.println(name);
-            if(customerEntity.getCustomerName().equals(name)){
+            if(customerEntity.getCustomerName(i).equals(name)){
                 foundCustomers.add(mapper.map(customerEntity, Customer.class));
             }
+            i++;
         }
         return foundCustomers;
     }
@@ -71,4 +67,21 @@ public class AddCustomerService {
         }
         return true;
     }
+
+//    public void updateCustomer(CustomerSubmission customerSubmission){
+//        Customer customer = mapper.map(customerSubmission, Customer.class);
+//        CustomerEntity customerEntity = mapper.map(customer, CustomerEntity.class);
+//        CustomerEntity savedEntity = repository.save()
+//
+////        Customer customer = mapper.map(customerSubmission, Customer.class);
+////
+////        // call repo layer to save data
+////        CustomerEntity customerEntity = mapper.map(customer, CustomerEntity.class);
+////        CustomerEntity savedEntity = repository.save(customerEntity);
+////
+////        Customer savedCustomer = mapper.map(savedEntity, Customer.class);
+////
+////        return savedCustomer.getCustomerId();
+//
+//    }
 }

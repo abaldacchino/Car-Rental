@@ -50,25 +50,24 @@ public class CustomerController {
     // Get customer details by Id
     // Expect -> getCustomerResponse, return customer details
     // Response -> OK, 200
-//    @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.OK)
-//    public GetCustomerResponse getById(@PathVariable String customerId) {
-//        Customer customer = addCustomerService.getCustomer(customerId);
-//        List<CustomerDetails> customerDetails = customer.getCustomerDetails();
-//        GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
-//        System.out.println(getCustomerResponse.getCustomerDetails());
-//        return getCustomerResponse;
-//    }
+    @GetMapping(value = "customers/{customerId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetCustomerResponse getById(@PathVariable String customerId) {
+        Customer customer = addCustomerService.getCustomer(customerId);
+        List<CustomerDetails> customerDetails = customer.getCustomerDetails();
+        GetCustomerResponse getCustomerResponse = new GetCustomerResponse(customerId, customerDetails);
+        System.out.println(getCustomerResponse.getCustomerDetails());
+        return getCustomerResponse;
+    }
 
     // HTTP -> GET
     // Get customer details by name
     // Expect -> getCustomerResponseByName, return Id
     // Response -> OK, 200
-    @GetMapping(value="customers/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value="CUSTOMERS/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public GetCustomerResponseByName getByName(@RequestParam(value="name") String name){
+    public GetCustomerResponseByName getByName(@RequestParam(value="X-Customer-name") String name){
         List<Customer> customers = addCustomerService.getCustomerByName(name);
-        System.out.println(customers);
         return new GetCustomerResponseByName(customers);
     }
 

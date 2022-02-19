@@ -64,7 +64,6 @@ public class VehicleManagementController {
         if(returnedVehicle == null)throw new VehicleNotFoundException();
         GetVehicleByNumberPlateResponse response =
                 mapper.map(returnedVehicle, GetVehicleByNumberPlateResponse.class);
-        System.out.println(response.getNumberPlate());
         return response;
     }
 

@@ -73,6 +73,10 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.OK)
     public GetCustomerResponseByName getByName(@RequestParam(value="X-Customer-name") String name){
         List<Customer> customers = addCustomerService.getCustomerByName(name);
+        if(customers.isEmpty())
+        {
+            throw new CustomerException();
+        }
         return new GetCustomerResponseByName(customers);
     }
 

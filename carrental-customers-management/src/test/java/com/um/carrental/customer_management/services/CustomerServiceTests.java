@@ -61,22 +61,19 @@ public class CustomerServiceTests {
 
     }
 
-//    @Test
-//    public void testDeleteCustomer(){
-//        // Setup
-//        String customerId = UUID.randomUUID().toString();
-//        AddCustomerRequest customerRequest = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
-//        customerController.submit(customerId, customerRequest);
-//        boolean expectedFound = true;
-//        when(addCustomerService.deleteCustomer(customerId)).thenReturn(expectedFound);
-//        // Exercise
-//        DeleteCustomerResponse actualResponse = customerController.deleteCustomer(customerId);
-//        // Verify
-//        assertNotNull(actualResponse, "Response is null");
-//        assertEquals(expectedFound, actualResponse.getCustomerBoolean());
-//        verify(addCustomerService, times(1)).deleteCustomer(customerId);
-//
-//    }
+    @Test
+    public void testDeleteCustomer(){
+        // Setup
+        String customerId = UUID.randomUUID().toString();
+        when(repository.existsById(customerId)).thenReturn(true);
+
+        // Exercise
+        boolean found = addCustomerService.deleteCustomer(customerId);
+        // Verify
+        assertTrue(found);
+        verify(repository, times(1)).deleteById(customerId);
+        verify(repository, times(1)).existsById(customerId);
+    }
 
     @Test
     public void testDeleteNonExistingCustomer(){
@@ -91,7 +88,6 @@ public class CustomerServiceTests {
         verify(repository, times(1)).existsById(any(String.class));
         verify(repository, times(0)).delete(any(CustomerEntity.class));
     }
-
 
     @Test
     public void testGetValidCustomer(){

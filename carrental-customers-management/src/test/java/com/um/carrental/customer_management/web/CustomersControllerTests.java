@@ -1,6 +1,7 @@
 package com.um.carrental.customer_management.web;
 
 import com.cedarsoftware.util.DeepEquals;
+import com.um.carrental.customer_management.data.entities.CustomerEntity;
 import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
 import com.um.carrental.customer_management.exceptions.CustomerException;
 import com.um.carrental.customer_management.services.models.Customer;
@@ -50,7 +51,7 @@ public class CustomersControllerTests{
 
                 String customerId = UUID.randomUUID().toString();
                 AddCustomerRequest request = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
-                when(customerServiceMock.addCustomer(any(CustomerSubmission.class))).thenReturn(customerId);
+                when(customerServiceMock.addCustomer(any(CustomerSubmission.class))).thenReturn(true);
 
                 // Act - Exercise
                 SubmitCustomerResponse response = customerController.submit(customerId, request);
@@ -60,7 +61,6 @@ public class CustomersControllerTests{
                 String receivedId = response.getId();
                 assertNotNull(receivedId, "Customer Id is null");
                 assertEquals(customerId, receivedId);
-
                 // No teardown needed
         }
 
@@ -134,17 +134,16 @@ public class CustomersControllerTests{
         @Test
         public void testDeletionOfValidCustomer(){
              // Setup
-                String customerId = UUID.randomUUID().toString();
+                String customerId = "000111M";
                 AddCustomerRequest request = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
-                customerController.submit(customerId, request);
-                boolean expectedFound = true;
-                when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expectedFound);
+                CustomerEntity customerEntity = new CustomerEntity(List.of(new com.um.carrental.customer_management.data.entities.CustomerDetails("andrew borg", 73)), customerId);
+                repository.save(customerEntity);
+                when(customerServiceMock.deleteCustomer(customerId)).thenReturn(true);
                 // Exercise
                 DeleteCustomerResponse actualResponse = customerController.deleteCustomer(customerId);
              // Verify
                 assertNotNull(actualResponse, "Response is null");
-                assertEquals(expectedFound, actualResponse.getCustomerBoolean());
-
+                assertTrue(actualResponse.getCustomerBoolean());
                 verify(customerServiceMock, times(1)).deleteCustomer(customerId);
              // No Teardown
         }
@@ -154,14 +153,13 @@ public class CustomersControllerTests{
                 // Setup
                 String customerId = UUID.randomUUID().toString();
                 AddCustomerRequest request = new AddCustomerRequest(List.of(new CustomerDetails("andrew borg", 73)));
-                customerController.submit(customerId, request);
-                boolean expectedFound = false;
-                when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expectedFound);
+                boolean expected = false;
+                when(customerServiceMock.deleteCustomer(customerId)).thenReturn(expected);
                 // Exercise
                 DeleteCustomerResponse actualResponse = customerController.deleteCustomer(customerId);
                 // Verify
                 assertNotNull(actualResponse, "Response is null");
-                assertEquals(expectedFound, actualResponse.getCustomerBoolean());
+                assertEquals(expected, actualResponse.getCustomerBoolean());
 
                 verify(customerServiceMock, times(1)).deleteCustomer(customerId);
                 // No Teardown

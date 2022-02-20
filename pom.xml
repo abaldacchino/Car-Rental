@@ -16,8 +16,8 @@
         <cucumber.version>6.10.4</cucumber.version>
         <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
         <jackson.version>2.12.3</jackson.version>
-        <maven.compiler.source>9</maven.compiler.source>
-        <maven.compiler.target>9</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <retrofit.version>2.9.0</retrofit.version>
     </properties>
 

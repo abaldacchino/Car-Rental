@@ -43,18 +43,17 @@ public class CustomerServiceTests {
     public void testAddCustomer(){
         // Setup
         CustomerSubmission customerSubmission = new CustomerSubmission();
-        customerSubmission.setCustomerId("000123M");
+        customerSubmission.setCustomerId("00000000123M");
         customerSubmission.setCustomerDetails(List.of(new com.um.carrental.customer_management.services.models.CustomerDetails("test name", 73)));
-        when(repository.existsById(any(String.class))).thenReturn(false);
+        when(repository.existsById("00000000123M")).thenReturn(false);
 
         // Exercise
-        String Id = addCustomerService.addCustomer(customerSubmission);
+        boolean result = addCustomerService.addCustomer(customerSubmission);
 
         // Verify
         assertNotNull(customerSubmission, "Customer submission is null");
 
-        assertNotNull(Id, "Id is null");
-        assertEquals(Id, customerSubmission.getCustomerId());
+        assertTrue(result, "result is false");
         verify(repository, times(1)).existsById(any(String.class));
         verify(repository, times(1)).save(any(CustomerEntity.class));
     }

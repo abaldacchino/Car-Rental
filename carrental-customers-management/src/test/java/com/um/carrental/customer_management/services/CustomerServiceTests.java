@@ -150,4 +150,15 @@ public class CustomerServiceTests {
         assertTrue(customers.isEmpty());
         verify(repository, times(1)).findAll();
     }
+
+    @Test
+    public void testUpdateValidCustomer(){
+
+    }
+
+    @Test
+    public void testUpdateInvalidCustomer(){
+
+    }
+
 }

@@ -23,21 +23,15 @@ public class AddCustomerService {
     @Autowired
     AddCustomerRepository repository;
 
-    public String addCustomer(CustomerSubmission customerSubmission){
-        Customer customer = mapper.map(customerSubmission, Customer.class);
+    public boolean addCustomer(CustomerSubmission customerSubmission){
         // call repo layer to save data
-        CustomerEntity customerEntity = mapper.map(customer, CustomerEntity.class);
+        CustomerEntity customerEntity = mapper.map(customerSubmission, CustomerEntity.class);
 
-        CustomerEntity savedEntity = repository.save(customerEntity);
-        if(savedEntity == null){
-            System.out.println("savedEntity is null");
+        if(!repository.existsById(customerEntity.getCustomerId())){
+            repository.save(customerEntity);
+            return true;
         }
-        Customer savedCustomer = mapper.map(savedEntity, Customer.class);
-        if(savedCustomer == null)
-        {
-            System.out.println("saved customer is null");
-        }
-        return savedCustomer.getCustomerId();
+        return false;
     }
 
     public Customer getCustomer(String customerId){

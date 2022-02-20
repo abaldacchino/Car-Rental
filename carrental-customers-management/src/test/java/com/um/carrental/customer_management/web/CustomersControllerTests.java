@@ -6,6 +6,7 @@ import com.um.carrental.customer_management.exceptions.CustomerException;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.CustomerDetails;
+import com.um.carrental.customer_management.web.requests.UpdateCustomerRequest;
 import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.GetCustomerResponse;
 import com.um.carrental.customer_management.web.responses.GetCustomerResponseByName;
@@ -166,4 +167,33 @@ public class CustomersControllerTests{
                 // No Teardown
         }
 
+        @Test
+        public void testUpdateExistingCustomer(){
+                // Setup
+                UpdateCustomerRequest request = new UpdateCustomerRequest("00123M", List.of(new CustomerDetails("andrew borg", 73)));
+                when(customerServiceMock.updateCustomer(request)).thenReturn(true);
+
+                // Exercise
+                GetCustomerResponse response = customerController.updateCustomer(request);
+
+                // Verify
+                verify(customerServiceMock, times(1)).updateCustomer(request);
+        }
+        @Test
+        public void testUpdateNonExistingCustomer(){
+                // Setup
+                UpdateCustomerRequest request = new UpdateCustomerRequest("00123M", List.of(new CustomerDetails("andrew borg", 73)));
+                when(customerServiceMock.updateCustomer(request)).thenReturn(false);
+
+                // Exercise
+                assertThrows(CustomerException.class, new Executable() {
+                        @Override
+                        public void execute() throws Throwable {
+                                GetCustomerResponse response = customerController.updateCustomer(request);
+                        }
+                });
+                // Verify
+                verify(customerServiceMock, times(1)).updateCustomer(request);
+
+        }
 }

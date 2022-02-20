@@ -7,6 +7,7 @@ import com.um.carrental.customer_management.data.repo.AddCustomerRepository;
 import com.um.carrental.customer_management.services.models.Customer;
 import com.um.carrental.customer_management.services.models.CustomerSubmission;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
+import com.um.carrental.customer_management.web.requests.UpdateCustomerRequest;
 import com.um.carrental.customer_management.web.responses.DeleteCustomerResponse;
 import com.um.carrental.customer_management.web.responses.SubmitCustomerResponse;
 import org.junit.jupiter.api.Test;
@@ -153,11 +154,30 @@ public class CustomerServiceTests {
 
     @Test
     public void testUpdateValidCustomer(){
-
+        // Setup
+        String customerId = "00123M";
+        UpdateCustomerRequest request = new UpdateCustomerRequest(customerId, List.of(new com.um.carrental.customer_management.web.requests.CustomerDetails("andrew borg", 73)));
+        when(repository.existsById(customerId)).thenReturn(true);
+        // Exercise
+        boolean isFound = addCustomerService.updateCustomer(request);
+        // Verify
+        assertTrue(isFound);
+        verify(repository, times(1)).existsById(customerId);
+        verify(repository, times(1)).save(any(CustomerEntity.class));
     }
 
     @Test
     public void testUpdateInvalidCustomer(){
+        // Setup
+        String customerId = "00123M";
+        UpdateCustomerRequest request = new UpdateCustomerRequest(customerId, List.of(new com.um.carrental.customer_management.web.requests.CustomerDetails("andrew borg", 73)));
+        when(repository.existsById(customerId)).thenReturn(false);
+        // Exercise
+        boolean isFound = addCustomerService.updateCustomer(request);
+        // Verify
+        assertFalse(isFound);
+        verify(repository, times(1)).existsById(customerId);
+        verify(repository, times(0)).save(any(CustomerEntity.class));
 
     }
 

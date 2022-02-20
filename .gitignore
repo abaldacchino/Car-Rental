@@ -1,2 +1,5 @@
 target/*
 *iml
+.idea/*
+./target/*
+/carrental-customers-management/target/

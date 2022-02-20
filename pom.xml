@@ -7,6 +7,9 @@
     <groupId>org.carrental</groupId>
     <artifactId>Car-Rental</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>carrental-customers-management</module>
+    </modules>
     <packaging>pom</packaging>
 
     <properties>
@@ -23,6 +26,32 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
+            <dependency>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.2.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                    <version>${spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -41,24 +70,12 @@
                 <scope>test</scope>
             </dependency>
 
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-jpa</artifactId>
-                <version>${spring-boot.version}</version>
-            </dependency>
+            <!-- <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-core</artifactId>
+                <version>3.2.3.RELEASE</version>
+                <scope>runtime</scope>
+            </dependency> -->
 
             <dependency>
                 <groupId>org.springframework.kafka</groupId>
@@ -206,6 +223,15 @@
                 </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <!-- <version>${spring-boot.version}</version> -->
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
     <modules>

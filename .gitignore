@@ -4,3 +4,5 @@ target/*
 /carrental-vehicle-management/target/
 /carrental-booking-management/target/
 codemr/
+*iml
+/carrental-customers-management/target/

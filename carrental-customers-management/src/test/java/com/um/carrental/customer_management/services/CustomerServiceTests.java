@@ -44,21 +44,18 @@ public class CustomerServiceTests {
         CustomerSubmission customerSubmission = new CustomerSubmission();
         customerSubmission.setCustomerId("000123M");
         customerSubmission.setCustomerDetails(List.of(new com.um.carrental.customer_management.services.models.CustomerDetails("test name", 73)));
-
-        CustomerEntity expectedCustomerEntity = mapper.map(customerSubmission, CustomerEntity.class);
-        CustomerEntity savedCustomerEntity = repository.save(expectedCustomerEntity);
-        when(repository.save(expectedCustomerEntity)).thenReturn(savedCustomerEntity);
+        when(repository.existsById(any(String.class))).thenReturn(false);
 
         // Exercise
         String Id = addCustomerService.addCustomer(customerSubmission);
 
         // Verify
         assertNotNull(customerSubmission, "Customer submission is null");
-        assertNotNull(expectedCustomerEntity, "Expected customer entity is null");
-        assertNotNull(savedCustomerEntity, "Saved entity is null");
+
         assertNotNull(Id, "Id is null");
         assertEquals(Id, customerSubmission.getCustomerId());
-
+        verify(repository, times(1)).existsById(any(String.class));
+        verify(repository, times(1)).save(any(CustomerEntity.class));
     }
 
     @Test

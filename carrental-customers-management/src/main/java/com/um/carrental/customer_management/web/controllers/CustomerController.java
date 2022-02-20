@@ -1,6 +1,7 @@
 package com.um.carrental.customer_management.web.controllers;
 
 import com.um.carrental.customer_management.exceptions.CustomerException;
+import com.um.carrental.customer_management.exceptions.InvalidCustomerException;
 import com.um.carrental.customer_management.web.requests.AddCustomerRequest;
 import com.um.carrental.customer_management.web.requests.UpdateCustomerRequest;
 import com.um.carrental.customer_management.web.responses.*;
@@ -42,8 +43,10 @@ public class CustomerController {
         CustomerSubmission customerSubmission = mapper.map(request, CustomerSubmission.class);
         customerSubmission.setCustomerId(customerId);
         // Customer customer = addCustomerService.addCustomer(customerSubmission);
-        customerId = addCustomerService.addCustomer(customerSubmission); // customer.getCustomerId();
-
+        boolean result = addCustomerService.addCustomer(customerSubmission); // customer.getCustomerId();
+        if(!result){
+            throw new InvalidCustomerException();
+        }
         return new SubmitCustomerResponse(customerId);
     }
 
